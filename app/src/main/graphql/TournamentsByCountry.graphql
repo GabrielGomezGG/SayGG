@@ -1,0 +1,10 @@
+query TournamentsByCountry($cCode: String!, $perPage: Int!) {
+    tournaments(query: {perPage: $perPage, filter: {countryCode: $cCode}}) {
+        nodes {
+            name
+            startAt
+            endAt
+            rules
+        }
+    }
+}
