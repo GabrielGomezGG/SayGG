@@ -10,13 +10,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.saygg.ui.theme.SayGGTheme
 import com.example.saygg.ui.view.MainScreen
-import com.example.saygg.ui.viewmodel.MainViewModel
+import com.example.saygg.ui.viewmodel.TournamentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val mainViewModel : MainViewModel by viewModels()
+    private val mainViewModel : TournamentViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
