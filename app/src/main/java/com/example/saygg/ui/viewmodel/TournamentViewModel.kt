@@ -14,7 +14,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 sealed interface TournamentUiState {
-    data class Success(val todos: List<Tournament>) : TournamentUiState
+    data class Success(val tournamentList: List<Tournament>) : TournamentUiState
     object Loading : TournamentUiState
     data class Error(val message: String) : TournamentUiState
 }
@@ -28,19 +28,11 @@ class TournamentViewModel @Inject constructor(
 
     init {
         getTournamentList("AR", 20)
-
-        val timestamp = 1620117580L
-        val date = Date(timestamp * 1000)
-
-        val formatter = SimpleDateFormat("MMMM d yyyy", Locale.ENGLISH)
-        val formattedDate = formatter.format(date)
     }
 
     private fun getTournamentList(countryCode : String, perPage:Int) {
         viewModelScope.launch {
             _tournamentList.value = tournamentRepository.getTournaments(countryCode, perPage)
         }
-
-
     }
 }

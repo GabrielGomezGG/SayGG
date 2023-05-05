@@ -13,6 +13,9 @@ query TournamentsByCountry($cCode: String!, $perPage: Int!) {
                 name
                 videogame{
                     name
+                    images{
+                        url
+                    }
                 }
             }
             rules

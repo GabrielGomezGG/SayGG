@@ -15,7 +15,8 @@ fun TournamentsByCountryQuery.Node.toTournament() : Tournament{
         endAt = (endAt) as Int,
         events = events!!.map{ Event(
             name = it?.name ?: "",
-            videogame = it?.videogame?.name ?: ""
+            videogame = it?.videogame?.name ?: "",
+            videogameImage = it?.videogame?.images.toString()
         )},
         rules = rules ?: ""
     )

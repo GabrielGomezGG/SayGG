@@ -1,7 +1,5 @@
 package com.example.saygg.ui.view
 
-import android.util.Log
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,13 +16,12 @@ fun MainScreen(tournamentViewModel: TournamentViewModel) {
             Text(text = (tournaments as TournamentUiState.Error).message)
         }
         is TournamentUiState.Loading -> {
-            CircularProgressIndicator()
+
         }
         is TournamentUiState.Success -> {
-            (tournaments as TournamentUiState.Success).todos.forEach {
-                Log.d("titi",it.name)
-            }
+            TournamentsView(tournamentList = (tournaments as TournamentUiState.Success).tournamentList)
         }
         else -> {}
     }
 }
+
