@@ -18,6 +18,10 @@ android {
     namespace 'com.example.saygg'
     compileSdk 33
 
+    buildFeatures {
+        buildConfig true
+    }
+
     defaultConfig {
         applicationId "com.example.saygg"
         minSdk 28
@@ -29,6 +33,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        buildConfigField "String", "API_KEY", "\"${properties.getProperty("apiKey")}\""
     }
 
     buildTypes {
