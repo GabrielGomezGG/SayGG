@@ -1,6 +1,5 @@
 package com.example.saygg.ui.view
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,12 +10,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +39,8 @@ fun TournamentView(images: List<Image>, title: String, starAt: Int, endAt: Int) 
     val end = timeStampToDate(endAt)
     val date = "$start - $end"
 
-    var image = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
+    var image = ""
+    val imageNoFound = R.drawable.tournament
     images.forEach {
         if (it.type == "profile") {
             image = it.url
@@ -42,22 +48,28 @@ fun TournamentView(images: List<Image>, title: String, starAt: Int, endAt: Int) 
     }
 
     Card(
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 16.dp
+        )
     ) {
         Column(
             modifier = Modifier
-                .height(104.dp)
+                .height(120.dp)
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
             Row(Modifier) {
                 SubcomposeAsyncImage(
-                    model = image,
+                    model = image.ifEmpty { imageNoFound },
                     loading = {
                         CircularProgressIndicator()
                     },
+                    contentScale = ContentScale.Crop,
                     contentDescription = null,
-                    modifier = Modifier.width(100.dp)
+                    modifier = Modifier
+                        .width(100.dp)
+                        .clip(RoundedCornerShape(8.dp))
                 )
                 Column(
                     Modifier
@@ -102,8 +114,8 @@ fun TournamentsView(tournamentList: List<Tournament>) {
 @Preview
 @Composable
 fun TournamentsViewPrev() {
-    val images = listOf<Image>(Image("https://picsum.photos/200/300", "profile"))
-    val tours = listOf<Tournament>(
+    val images = listOf(Image("https://picsum.photos/200/300", "profile"))
+    val tours = listOf(
         Tournament(images, "Titi", 1, 2, 0, emptyList(), "titi"),
         Tournament(images, "Titi", 1, 2, 0, emptyList(), "titi"),
         Tournament(images, "Titi", 1, 2, 0, emptyList(), "titi"),
