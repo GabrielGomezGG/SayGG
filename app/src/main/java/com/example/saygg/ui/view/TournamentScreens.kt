@@ -94,8 +94,8 @@ fun TournamentView(images: List<Image>, title: String, starAt: Int, endAt: Int) 
 
 
 @Composable
-fun TournamentsView(tournamentList: List<Tournament>) {
-    LazyColumn(Modifier.fillMaxSize()) {
+fun TournamentsView(tournamentList: List<Tournament>, modifier : Modifier = Modifier) {
+    LazyColumn(modifier = modifier) {
         items(tournamentList) {
             TournamentView(
                 images = it.images,

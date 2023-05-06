@@ -16,14 +16,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val mainViewModel : TournamentViewModel by viewModels()
+    private val tournamentViewModel : TournamentViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SayGGTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    MainScreen(mainViewModel)
+                    MainScreen(tournamentViewModel)
                 }
             }
         }
