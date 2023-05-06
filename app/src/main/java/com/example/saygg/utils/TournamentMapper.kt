@@ -18,6 +18,7 @@ fun TournamentsByCountryQuery.Node.toTournament() : Tournament{
             videogame = it?.videogame?.name ?: "",
             videogameImage = it?.videogame?.images.toString()
         )},
-        rules = rules ?: ""
+        rules = rules ?: "",
+        numAttendees = numAttendees ?: 0
     )
 }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,7 +31,13 @@ import com.example.saygg.data.model.Tournament
 import com.example.saygg.utils.timeStampToDate
 
 @Composable
-fun TournamentView(images: List<Image>, title: String, starAt: Int, endAt: Int) {
+fun TournamentView(
+    images: List<Image>,
+    title: String,
+    starAt: Int,
+    endAt: Int,
+    attenders : Int
+) {
     val start = timeStampToDate(starAt)
     val end = timeStampToDate(endAt)
     val date = "$start - $end"
@@ -75,16 +82,20 @@ fun TournamentView(images: List<Image>, title: String, starAt: Int, endAt: Int) 
                 ) {
                     Text(
                         text = title,
-                        Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Start,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 2.dp),
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Text(
                         text = date,
-                        Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Start,
-                        fontSize = 12.sp
+                        Modifier.fillMaxWidth().padding(vertical = 2.dp),
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                    Text(
+                        text = "$attenders Attendees",
+                        Modifier.fillMaxWidth().padding(vertical = 2.dp),
+                        style = MaterialTheme.typography.labelMedium
                     )
                 }
             }
@@ -101,7 +112,8 @@ fun TournamentsView(tournamentList: List<Tournament>, modifier : Modifier = Modi
                 images = it.images,
                 endAt = it.endAt,
                 starAt = it.startAt,
-                title = it.name
+                title = it.name,
+                attenders = it.numAttendees
             )
         }
     }
