@@ -23,7 +23,7 @@ val Typography = Typography(
     ),
     labelMedium = TextStyle(
         textAlign = TextAlign.Start,
-        fontSize = 12.sp
+        fontSize = 16.sp
     )
     /* Other default text styles to override
     titleLarge = TextStyle(

@@ -90,14 +90,14 @@ fun MainScreen(tournamentViewModel: TournamentViewModel) {
 fun MainTopAppBar(title: String, onMenuPressed: () -> Unit) {
     TopAppBar(
         title = {
-            Box(modifier = Modifier.padding(8.dp)) {
+            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
                 IconButton(
                     onClick = { /*TODO*/ },
-                    Modifier.size(35.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.startgglogo),
+                        painter = painterResource(id = R.drawable.startgg),
                         contentDescription = null,
+                        Modifier.size(48.dp)
                     )
                 }
                 Text(
@@ -114,7 +114,7 @@ fun MainTopAppBar(title: String, onMenuPressed: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.Menu,
                     contentDescription = null,
-                    Modifier.size(80.dp)
+                    Modifier.size(48.dp)
                 )
             }
         }
@@ -125,7 +125,7 @@ fun MainTopAppBar(title: String, onMenuPressed: () -> Unit) {
 fun MainContent(tournaments: TournamentUiState?, padding: PaddingValues) {
     when (tournaments) {
         is TournamentUiState.Error -> {
-            Text(text = (tournaments as TournamentUiState.Error).message)
+            Text(text = tournaments.message)
         }
 
         is TournamentUiState.Loading -> {
@@ -138,8 +138,8 @@ fun MainContent(tournaments: TournamentUiState?, padding: PaddingValues) {
         }
 
         is TournamentUiState.Success -> {
-            TournamentsView(
-                tournamentList = (tournaments as TournamentUiState.Success).tournamentList,
+            TournamentsThumbnail(
+                tournamentList = tournaments.tournamentList,
                 Modifier.padding(padding)
             )
         }
@@ -154,7 +154,7 @@ fun MainNavigationDrawerItems(tournamentItem: List<Tournament> = emptyList()) {
 
     //Start GG icon
     MainNavigationDrawerItem(
-        icon = R.drawable.startgglogo,
+        icon = R.drawable.startgg,
         modifier = Modifier.padding(vertical = 8.dp)
     )
 
@@ -211,7 +211,7 @@ fun <T> MainNavigationDrawerItem(
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        modifier = Modifier.size(50.dp)
+                        modifier = Modifier.size(48.dp)
                     )
                 }
             }

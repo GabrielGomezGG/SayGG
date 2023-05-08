@@ -7,5 +7,6 @@ data class Tournament(
     val endAt: Int,
     val numAttendees: Int = 0,
     val events: List<Event>,
-    val rules : String
+    val rules : String,
+    val venueAddress : String = ""
 )

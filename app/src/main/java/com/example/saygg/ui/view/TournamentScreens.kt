@@ -1,29 +1,35 @@
 package com.example.saygg.ui.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
 import com.example.saygg.data.model.Image
@@ -36,7 +42,49 @@ fun TournamentView(
     title: String,
     starAt: Int,
     endAt: Int,
-    attenders : Int
+    attenders: Int,
+    venueAddress : String
+) {
+
+    var image = ""
+    images.forEach {
+        if (it.type == "banner") {
+            image = it.url
+        }
+    }
+
+    Column {
+        if(image.isNotEmpty()){
+            SubcomposeAsyncImage(
+                model = image,
+                loading = {
+                    CircularProgressIndicator()
+                },
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(240.dp)
+            )
+        }
+        TournamentThumbnail(
+            images = images,
+            title = title,
+            starAt = starAt,
+            endAt = endAt,
+            attenders = attenders,
+            venueAddress = venueAddress
+        )
+    }
+}
+
+@Composable
+fun TournamentThumbnail(
+    images: List<Image>,
+    title: String,
+    starAt: Int,
+    endAt: Int,
+    attenders: Int,
+    venueAddress : String,
 ) {
     val start = timeStampToDate(starAt)
     val end = timeStampToDate(endAt)
@@ -50,71 +98,112 @@ fun TournamentView(
         }
     }
 
-    Card(
-        modifier = Modifier.padding(8.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 16.dp
-        )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier
-                .height(120.dp)
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Row(Modifier) {
-                SubcomposeAsyncImage(
-                    model = image.ifEmpty { imageNoFound },
-                    loading = {
-                        CircularProgressIndicator()
-                    },
-                    contentScale = ContentScale.Crop,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(100.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
-                Column(
+        Row(Modifier) {
+            SubcomposeAsyncImage(
+                model = image.ifEmpty { imageNoFound },
+                loading = {
+                    CircularProgressIndicator()
+                },
+                contentScale = ContentScale.Crop,
+                contentDescription = null,
+                modifier = Modifier
+                    .width(100.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .fillMaxHeight()
+                    .align(CenterVertically)
+            )
+            Column(
+                Modifier
+                    .weight(2f)
+                    .align(Alignment.CenterVertically)
+                    .padding(horizontal = 8.dp)
+            ) {
+                Text(
+                    text = title,
                     Modifier
-                        .weight(2f)
-                        .align(Alignment.CenterVertically)
-                        .padding(horizontal = 8.dp)
-                ) {
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Row(Modifier.fillMaxWidth()) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.size(4.dp))
                     Text(
-                        text = title,
+                        text = date,
                         Modifier
                             .fillMaxWidth()
                             .padding(vertical = 2.dp),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Text(
-                        text = date,
-                        Modifier.fillMaxWidth().padding(vertical = 2.dp),
                         style = MaterialTheme.typography.labelMedium
                     )
+                }
+                Row(Modifier.fillMaxWidth()) {
+                    Icon(imageVector = Icons.Default.Person, contentDescription = null)
+                    Spacer(modifier = Modifier.size(4.dp))
                     Text(
                         text = "$attenders Attendees",
-                        Modifier.fillMaxWidth().padding(vertical = 2.dp),
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 2.dp),
                         style = MaterialTheme.typography.labelMedium
+                    )
+                }
+                Row(Modifier.fillMaxWidth()) {
+                    Icon(
+                        imageVector = Icons.Default.LocationOn,
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.size(4.dp))
+                    Text(
+                        text = venueAddress,
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 2.dp),
+                        style = MaterialTheme.typography.labelMedium,
                     )
                 }
             }
         }
     }
+
 }
 
 
 @Composable
-fun TournamentsView(tournamentList: List<Tournament>, modifier : Modifier = Modifier) {
+fun TournamentsThumbnail(tournamentList: List<Tournament>, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
         items(tournamentList) {
-            TournamentView(
-                images = it.images,
-                endAt = it.endAt,
-                starAt = it.startAt,
-                title = it.name,
-                attenders = it.numAttendees
-            )
+//            TournamentView(
+//                images = it.images,
+//                endAt = it.endAt,
+//                starAt = it.startAt,
+//                title = it.name,
+//                attenders = it.numAttendees,
+//                venueAddress = it.venueAddress
+//            )
+            Card(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clickable { },
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 8.dp
+                )
+            ) {
+                TournamentThumbnail(
+                    images = it.images,
+                    endAt = it.endAt,
+                    starAt = it.startAt,
+                    title = it.name,
+                    attenders = it.numAttendees,
+                    venueAddress = it.venueAddress
+                )
+            }
         }
     }
 }

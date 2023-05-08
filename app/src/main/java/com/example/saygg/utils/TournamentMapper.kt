@@ -11,6 +11,7 @@ fun TournamentsByCountryQuery.Node.toTournament() : Tournament{
             type = it?.type ?: "",
             url = it?.url ?: "") },
         name = name ?: "",
+        venueAddress = venueAddress ?: "",
         startAt = (startAt) as Int,
         endAt = (endAt) as Int,
         events = events!!.map{ Event(
@@ -19,6 +20,6 @@ fun TournamentsByCountryQuery.Node.toTournament() : Tournament{
             videogameImage = it?.videogame?.images.toString()
         )},
         rules = rules ?: "",
-        numAttendees = numAttendees ?: 0
+        numAttendees = numAttendees ?: 0,
     )
 }

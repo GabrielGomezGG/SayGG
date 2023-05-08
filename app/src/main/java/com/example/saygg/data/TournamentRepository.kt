@@ -21,7 +21,7 @@ class TournamentRepository @Inject constructor(
                     0,
                     0,
                     events = emptyList(),
-                    rules = ""
+                    rules = "",
                 )
             } ?: emptyList()
             TournamentUiState.Success(tournaments)
