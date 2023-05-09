@@ -7,5 +7,7 @@ data class Tournament(
     val startAt: Int = 0,
     val endAt: Int = 0,
     val numAttendees: Int = 0,
-    val venueAddress : String = ""
+    val venueAddress : String = "",
+    val primaryContact : String = "",
+    val primaryContactType : String = "",
 )

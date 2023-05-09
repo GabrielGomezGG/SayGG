@@ -85,7 +85,7 @@ fun MainScreen(
                 }
             }
         ) {
-            MainContent(tournaments, it)
+            MainContent(tournaments, it, tournamentViewModel)
         }
     }
 
@@ -129,7 +129,11 @@ fun MainTopAppBar(title: String, imageTitle : Int, onMenuPressed: () -> Unit) {
 }
 
 @Composable
-fun MainContent(tournaments: TournamentUiState?, padding: PaddingValues) {
+fun MainContent(
+    tournaments: TournamentUiState?,
+    padding: PaddingValues,
+    tournamentViewModel: TournamentViewModel
+) {
     when (tournaments) {
         is TournamentUiState.Error -> {
             Text(text = tournaments.message)
@@ -147,7 +151,8 @@ fun MainContent(tournaments: TournamentUiState?, padding: PaddingValues) {
         is TournamentUiState.Success -> {
             NavigationHost(
                 tournamentList = tournaments.tournamentList,
-                modifier = Modifier.padding(padding)
+                modifier = Modifier.padding(padding),
+                tournamentViewModel
             )
         }
 

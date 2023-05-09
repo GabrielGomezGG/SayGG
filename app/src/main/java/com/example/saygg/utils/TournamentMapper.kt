@@ -15,7 +15,7 @@ fun TournamentsByCountryQuery.Node.toTournament() : Tournament{
         startAt = (startAt) as Int,
         endAt = (endAt) as Int,
         numAttendees = numAttendees ?: 0,
-        id = id ?: ""
+        id = id ?: "",
     )
 }
 
@@ -28,6 +28,8 @@ fun TournamentByIdQuery.Tournament.toTournament() : Tournament{
         venueAddress = venueAddress ?: "",
         startAt = (startAt) as Int,
         endAt = (endAt) as Int,
-        numAttendees = numAttendees ?: 0
+        numAttendees = numAttendees ?: 0,
+        primaryContact = primaryContact ?: "",
+        primaryContactType = primaryContactType ?: ""
     )
 }

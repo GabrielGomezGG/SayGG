@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
@@ -28,9 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
 import com.example.saygg.R
 import com.example.saygg.data.model.Image
 import com.example.saygg.data.model.Tournament
@@ -38,44 +43,66 @@ import com.example.saygg.utils.timeStampToDate
 
 @Composable
 fun TournamentView(
-    images: List<Image>,
-    title: String,
-    starAt: Int,
-    endAt: Int,
-    attenders: Int,
-    venueAddress : String
+    tournament : Tournament
 ) {
 
     var imageBanner = ""
-    var imageProfile = ""
 
-    images.forEach {
-        if (it.type == "profile") {
-            imageProfile = it.url
-        }
+    tournament.images.forEach {
         if(it.type == "banner"){
             imageBanner = it.url
         }
     }
 
-    Column {
+    Column(Modifier.fillMaxWidth()) {
         if(imageBanner.isNotEmpty()){
             SubcomposeAsyncImage(
                 model = imageBanner,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(240.dp)
             )
         }
-        TournamentThumbnail(
-            images = images,
-            title = title,
-            starAt = starAt,
-            endAt = endAt,
-            attenders = attenders,
-            venueAddress = venueAddress
-        )
+        Card(
+            modifier = Modifier
+                .padding(8.dp),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 8.dp
+            )
+        ) {
+            TournamentThumbnail(
+                images = tournament.images,
+                title = tournament.name,
+                starAt = tournament.startAt,
+                endAt = tournament.endAt,
+                attenders = tournament.numAttendees,
+                venueAddress = tournament.venueAddress,
+                contact = {
+                    Row(Modifier.fillMaxWidth()) {
+                        if (tournament.primaryContactType == "discord") {
+                            Icon(
+                                painter = painterResource(id = R.drawable.discord),
+                                contentDescription = null
+                            )
+                        }else{
+                            Icon(
+                                imageVector = Icons.Default.Email,
+                                contentDescription = null
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(
+                            text = tournament.primaryContact,
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 2.dp),
+                            style = MaterialTheme.typography.labelMedium,
+                        )
+                    }
+                    //DataTournament(icon = Icons.Default.LocationOn, data = tournament.primaryContact)
+                }
+            )
+        }
     }
 }
 
@@ -87,6 +114,7 @@ fun TournamentThumbnail(
     endAt: Int,
     attenders: Int,
     venueAddress : String,
+    contact : @Composable () -> Unit = {}
 ) {
     val start = timeStampToDate(starAt)
     val end = timeStampToDate(endAt)
@@ -112,7 +140,7 @@ fun TournamentThumbnail(
                 loading = {
                     CircularProgressIndicator()
                 },
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillWidth,
                 contentDescription = null,
                 modifier = Modifier
                     .width(100.dp)
@@ -129,6 +157,7 @@ fun TournamentThumbnail(
                 DataTournament(icon = Icons.Default.DateRange, data = date)
                 DataTournament(icon = Icons.Default.Person, data = "$attenders Attendees")
                 DataTournament(icon = Icons.Default.LocationOn, data = venueAddress)
+                contact()
             }
         }
     }
@@ -163,14 +192,14 @@ fun DataTournament(
 fun TournamentsThumbnail(
     tournamentList: List<Tournament>,
     modifier: Modifier = Modifier,
-    navTournamentView : () -> Unit
+    navTournamentView : (String) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         items(tournamentList) {
             Card(
                 modifier = Modifier
                     .padding(8.dp)
-                    .clickable { navTournamentView() },
+                    .clickable { navTournamentView(it.id) },
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 8.dp
                 )
