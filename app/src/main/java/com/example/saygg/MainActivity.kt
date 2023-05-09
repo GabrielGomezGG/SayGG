@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.saygg.ui.theme.SayGGTheme
 import com.example.saygg.ui.view.MainScreen
+import com.example.saygg.ui.viewmodel.MainViewModel
 import com.example.saygg.ui.viewmodel.TournamentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,13 +18,17 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val tournamentViewModel : TournamentViewModel by viewModels()
+    private val mainViewModel : MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SayGGTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    MainScreen(tournamentViewModel)
+                    MainScreen(
+                        tournamentViewModel,
+                        mainViewModel
+                    )
                 }
             }
         }

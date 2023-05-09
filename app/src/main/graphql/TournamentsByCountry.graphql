@@ -5,23 +5,12 @@ query TournamentsByCountry($cCode: String!, $perPage: Int!) {
                 url
                 type
             }
+            id
             name
             startAt
             endAt
             numAttendees
             venueAddress
-            primaryContact
-            primaryContactType
-            events{
-                name
-                videogame{
-                    name
-                    images{
-                        url
-                    }
-                }
-            }
-            rules
         }
     }
 }

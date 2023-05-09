@@ -1,0 +1,47 @@
+query TournamentById(
+    $tournamentId: ID!,
+#    $numAttendees : Int
+) {
+    tournament(id: $tournamentId) {
+        images {
+            type
+            url
+        }
+        name
+        startAt
+        endAt
+        numAttendees
+        venueAddress
+        primaryContact
+        primaryContactType
+        rules
+#        events{
+#            name
+#            videogame{
+#                name
+#                images{
+#                    url
+#                }
+#            }
+#        }
+#        participants(query: {perPage: $numAttendees}) {
+#            nodes {
+#                id
+#                prefix
+#                gamerTag
+#                player {
+#                    id
+#                    prefix
+#                    gamerTag
+#                    user {
+#                        id
+#                        images {
+#                            url
+#                            type
+#                        }
+#                    }
+#                }
+#            }
+#        }
+    }
+}

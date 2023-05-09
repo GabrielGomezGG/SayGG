@@ -42,6 +42,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.saygg.R
 import com.example.saygg.data.model.Tournament
+import com.example.saygg.ui.NavigationHost
+import com.example.saygg.ui.viewmodel.MainViewModel
 import com.example.saygg.ui.viewmodel.TournamentUiState
 import com.example.saygg.ui.viewmodel.TournamentViewModel
 import kotlinx.coroutines.launch
@@ -49,7 +51,12 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(tournamentViewModel: TournamentViewModel) {
+fun MainScreen(
+    tournamentViewModel: TournamentViewModel,
+    mainViewModel: MainViewModel
+) {
+    val title by mainViewModel.title.observeAsState("Tournaments")
+    val imageTitle by mainViewModel.imageTitle.observeAsState(R.drawable.startgg)
 
     val tournaments by tournamentViewModel.tournamentList.observeAsState()
 
@@ -71,7 +78,7 @@ fun MainScreen(tournamentViewModel: TournamentViewModel) {
     ) {
         Scaffold(
             topBar = {
-                MainTopAppBar(title = "Tournaments") {
+                MainTopAppBar(title, imageTitle = imageTitle) {
                     coroutineScope.launch {
                         drawerState.open()
                     }
@@ -87,7 +94,7 @@ fun MainScreen(tournamentViewModel: TournamentViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainTopAppBar(title: String, onMenuPressed: () -> Unit) {
+fun MainTopAppBar(title: String, imageTitle : Int, onMenuPressed: () -> Unit) {
     TopAppBar(
         title = {
             Box(modifier = Modifier.padding(horizontal = 8.dp)) {
@@ -95,7 +102,7 @@ fun MainTopAppBar(title: String, onMenuPressed: () -> Unit) {
                     onClick = { /*TODO*/ },
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.startgg),
+                        painter = painterResource(imageTitle),
                         contentDescription = null,
                         Modifier.size(48.dp)
                     )
@@ -117,7 +124,7 @@ fun MainTopAppBar(title: String, onMenuPressed: () -> Unit) {
                     Modifier.size(48.dp)
                 )
             }
-        }
+        },
     )
 }
 
@@ -138,9 +145,9 @@ fun MainContent(tournaments: TournamentUiState?, padding: PaddingValues) {
         }
 
         is TournamentUiState.Success -> {
-            TournamentsThumbnail(
+            NavigationHost(
                 tournamentList = tournaments.tournamentList,
-                Modifier.padding(padding)
+                modifier = Modifier.padding(padding)
             )
         }
 

@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,21 +23,22 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
-import com.example.saygg.data.model.Image
 import com.example.saygg.data.model.Tournament
 import com.example.saygg.utils.timeStampToDate
 
 @Composable
 fun TournamentView(
-    images: List<Image>,
+    imageProfile: String,
+    imageBanner: String,
     title: String,
     starAt: Int,
     endAt: Int,
@@ -46,20 +46,10 @@ fun TournamentView(
     venueAddress : String
 ) {
 
-    var image = ""
-    images.forEach {
-        if (it.type == "banner") {
-            image = it.url
-        }
-    }
-
     Column {
-        if(image.isNotEmpty()){
+        if(imageBanner.isNotEmpty()){
             SubcomposeAsyncImage(
-                model = image,
-                loading = {
-                    CircularProgressIndicator()
-                },
+                model = imageBanner,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -67,7 +57,7 @@ fun TournamentView(
             )
         }
         TournamentThumbnail(
-            images = images,
+            imageProfile = imageProfile,
             title = title,
             starAt = starAt,
             endAt = endAt,
@@ -79,7 +69,7 @@ fun TournamentView(
 
 @Composable
 fun TournamentThumbnail(
-    images: List<Image>,
+    imageProfile: String,
     title: String,
     starAt: Int,
     endAt: Int,
@@ -90,21 +80,16 @@ fun TournamentThumbnail(
     val end = timeStampToDate(endAt)
     val date = "$start - $end"
 
-    var image = ""
     val imageNoFound = R.drawable.tournament
-    images.forEach {
-        if (it.type == "profile") {
-            image = it.url
-        }
-    }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(8.dp)
     ) {
         Row(Modifier) {
             SubcomposeAsyncImage(
-                model = image.ifEmpty { imageNoFound },
+                model = imageProfile.ifEmpty { imageNoFound },
                 loading = {
                     CircularProgressIndicator()
                 },
@@ -113,90 +98,79 @@ fun TournamentThumbnail(
                 modifier = Modifier
                     .width(100.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .fillMaxHeight()
                     .align(CenterVertically)
             )
             Column(
                 Modifier
                     .weight(2f)
-                    .align(Alignment.CenterVertically)
+                    .align(CenterVertically)
                     .padding(horizontal = 8.dp)
             ) {
-                Text(
-                    text = title,
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 2.dp),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Row(Modifier.fillMaxWidth()) {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = date,
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 2.dp),
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                }
-                Row(Modifier.fillMaxWidth()) {
-                    Icon(imageVector = Icons.Default.Person, contentDescription = null)
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = "$attenders Attendees",
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 2.dp),
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                }
-                Row(Modifier.fillMaxWidth()) {
-                    Icon(
-                        imageVector = Icons.Default.LocationOn,
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = venueAddress,
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 2.dp),
-                        style = MaterialTheme.typography.labelMedium,
-                    )
-                }
+                DataTournament(icon = null, data = title,MaterialTheme.typography.titleMedium)
+                DataTournament(icon = Icons.Default.DateRange, data = date)
+                DataTournament(icon = Icons.Default.Person, data = "$attenders Attendees")
+                DataTournament(icon = Icons.Default.LocationOn, data = venueAddress)
             }
         }
     }
+}
 
+@Composable
+fun DataTournament(
+    icon: ImageVector?,
+    data: String,
+    style : TextStyle = MaterialTheme.typography.labelMedium
+) {
+    Row(Modifier.fillMaxWidth()) {
+        if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null
+            )
+        }
+        Spacer(modifier = Modifier.size(4.dp))
+        Text(
+            text = data,
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 2.dp),
+            style = style,
+        )
+    }
 }
 
 
 @Composable
-fun TournamentsThumbnail(tournamentList: List<Tournament>, modifier: Modifier = Modifier) {
+fun TournamentsThumbnail(
+    tournamentList: List<Tournament>,
+    modifier: Modifier = Modifier,
+    navTournamentView : () -> Unit
+) {
+    var imageProfile = ""
+    var imageBanner = ""
+
+
     LazyColumn(modifier = modifier) {
         items(tournamentList) {
-//            TournamentView(
-//                images = it.images,
-//                endAt = it.endAt,
-//                starAt = it.startAt,
-//                title = it.name,
-//                attenders = it.numAttendees,
-//                venueAddress = it.venueAddress
-//            )
+            it.images.forEach { image ->
+                imageProfile = ""
+                if (image.type == "profile") {
+                    imageProfile = image.url
+                }
+                if(image.type == "banner"){
+                    imageBanner = image.url
+                }
+            }
             Card(
                 modifier = Modifier
                     .padding(8.dp)
-                    .clickable { },
+                    .clickable { navTournamentView() },
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 8.dp
                 )
             ) {
                 TournamentThumbnail(
-                    images = it.images,
+                    imageProfile = imageProfile,
                     endAt = it.endAt,
                     starAt = it.startAt,
                     title = it.name,

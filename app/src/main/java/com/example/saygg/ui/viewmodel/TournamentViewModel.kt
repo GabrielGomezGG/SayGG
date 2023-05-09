@@ -8,12 +8,9 @@ import com.example.saygg.data.TournamentRepository
 import com.example.saygg.data.model.Tournament
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
-sealed interface TournamentUiState {
+sealed interface TournamentUiState{
     data class Success(val tournamentList: List<Tournament>) : TournamentUiState
     object Loading : TournamentUiState
     data class Error(val message: String) : TournamentUiState
@@ -26,6 +23,9 @@ class TournamentViewModel @Inject constructor(
     private val _tournamentList = MutableLiveData<TournamentUiState>(TournamentUiState.Loading);
     val tournamentList: LiveData<TournamentUiState> = _tournamentList
 
+    private val _tournament = MutableLiveData<Tournament>();
+    val tournament: LiveData<Tournament> = _tournament
+
     init {
         getTournamentList("AR", 20)
     }
@@ -33,6 +33,12 @@ class TournamentViewModel @Inject constructor(
     private fun getTournamentList(countryCode : String, perPage:Int) {
         viewModelScope.launch {
             _tournamentList.value = tournamentRepository.getTournaments(countryCode, perPage)
+        }
+    }
+
+    fun getTournamentById(id : String){
+        viewModelScope.launch {
+            _tournament.value = tournamentRepository.getTournamentById(id)
         }
     }
 }
