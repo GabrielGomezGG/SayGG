@@ -32,8 +32,7 @@ fun NavigationHost(
         }
         composable(DTournamentView.route){
             TournamentView(
-                imageProfile = "",
-                imageBanner = "",
+                emptyList(),
                 title = "Titi",
                 starAt = 0,
                 endAt = 0,

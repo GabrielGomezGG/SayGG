@@ -32,19 +32,31 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
+import com.example.saygg.data.model.Image
 import com.example.saygg.data.model.Tournament
 import com.example.saygg.utils.timeStampToDate
 
 @Composable
 fun TournamentView(
-    imageProfile: String,
-    imageBanner: String,
+    images: List<Image>,
     title: String,
     starAt: Int,
     endAt: Int,
     attenders: Int,
     venueAddress : String
 ) {
+
+    var imageBanner = ""
+    var imageProfile = ""
+
+    images.forEach {
+        if (it.type == "profile") {
+            imageProfile = it.url
+        }
+        if(it.type == "banner"){
+            imageBanner = it.url
+        }
+    }
 
     Column {
         if(imageBanner.isNotEmpty()){
@@ -57,7 +69,7 @@ fun TournamentView(
             )
         }
         TournamentThumbnail(
-            imageProfile = imageProfile,
+            images = images,
             title = title,
             starAt = starAt,
             endAt = endAt,
@@ -69,7 +81,7 @@ fun TournamentView(
 
 @Composable
 fun TournamentThumbnail(
-    imageProfile: String,
+    images: List<Image>,
     title: String,
     starAt: Int,
     endAt: Int,
@@ -80,7 +92,14 @@ fun TournamentThumbnail(
     val end = timeStampToDate(endAt)
     val date = "$start - $end"
 
+    var image = ""
     val imageNoFound = R.drawable.tournament
+
+    images.forEach {
+        if (it.type == "profile") {
+            image = it.url
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -89,7 +108,7 @@ fun TournamentThumbnail(
     ) {
         Row(Modifier) {
             SubcomposeAsyncImage(
-                model = imageProfile.ifEmpty { imageNoFound },
+                model = image.ifEmpty { imageNoFound },
                 loading = {
                     CircularProgressIndicator()
                 },
@@ -146,21 +165,8 @@ fun TournamentsThumbnail(
     modifier: Modifier = Modifier,
     navTournamentView : () -> Unit
 ) {
-    var imageProfile = ""
-    var imageBanner = ""
-
-
     LazyColumn(modifier = modifier) {
         items(tournamentList) {
-            it.images.forEach { image ->
-                imageProfile = ""
-                if (image.type == "profile") {
-                    imageProfile = image.url
-                }
-                if(image.type == "banner"){
-                    imageBanner = image.url
-                }
-            }
             Card(
                 modifier = Modifier
                     .padding(8.dp)
@@ -170,7 +176,7 @@ fun TournamentsThumbnail(
                 )
             ) {
                 TournamentThumbnail(
-                    imageProfile = imageProfile,
+                    images = it.images,
                     endAt = it.endAt,
                     starAt = it.startAt,
                     title = it.name,
