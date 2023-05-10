@@ -6,15 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.saygg.data.TournamentRepository
 import com.example.saygg.data.model.Tournament
+import com.example.saygg.ui.uistate.TournamentUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-sealed interface TournamentUiState{
-    data class Success(val tournamentList: List<Tournament>) : TournamentUiState
-    object Loading : TournamentUiState
-    data class Error(val message: String) : TournamentUiState
-}
 
 @HiltViewModel
 class TournamentViewModel @Inject constructor(

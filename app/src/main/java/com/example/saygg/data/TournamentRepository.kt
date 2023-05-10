@@ -5,7 +5,7 @@ import com.apollographql.apollo3.exception.ApolloException
 import com.example.saygg.TournamentByIdQuery
 import com.example.saygg.TournamentsByCountryQuery
 import com.example.saygg.data.model.Tournament
-import com.example.saygg.ui.viewmodel.TournamentUiState
+import com.example.saygg.ui.uistate.TournamentUiState
 import com.example.saygg.utils.toTournament
 import javax.inject.Inject
 

@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import com.example.saygg.R
 import com.example.saygg.data.model.Tournament
 import com.example.saygg.ui.NavigationHost
+import com.example.saygg.ui.uistate.TournamentUiState
 import com.example.saygg.ui.viewmodel.MainViewModel
-import com.example.saygg.ui.viewmodel.TournamentUiState
 import com.example.saygg.ui.viewmodel.TournamentViewModel
 import kotlinx.coroutines.launch
 
