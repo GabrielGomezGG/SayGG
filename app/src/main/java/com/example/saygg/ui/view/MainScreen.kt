@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.saygg.R
@@ -51,7 +52,7 @@ fun MainScreen(
     tournamentViewModel: TournamentViewModel,
     mainViewModel: MainViewModel
 ) {
-    val title by mainViewModel.title.observeAsState("Tournaments")
+    val title by mainViewModel.title.observeAsState(stringResource(id = R.string.tournaments))
     val imageTitle by mainViewModel.imageTitle.observeAsState(R.drawable.startgg)
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -106,7 +107,9 @@ fun MainTopAppBar(
                     Image(
                         painter = painterResource(imageTitle),
                         contentDescription = null,
-                        Modifier.size(40.dp).align(CenterVertically)
+                        Modifier
+                            .size(40.dp)
+                            .align(CenterVertically)
                     )
                 }
                 Text(

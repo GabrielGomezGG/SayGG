@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SayGG</string>
+    <string name="are_you_sure_exit">¿Seguro deseas salir?</string>
+    <string name="exit">Salir</string>
+    <string name="cancel">Cancelar</string>
+    <string name="tournaments">Torneos</string>
+    <string name="attendees">Participantes</string>
+</resources>
