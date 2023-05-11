@@ -196,7 +196,7 @@ fun TournamentThumbnail(
             ) {
                 DataTournament(icon = null, data = title, MaterialTheme.typography.titleMedium)
                 DataTournament(icon = Icons.Default.DateRange, data = date)
-                DataTournament(icon = Icons.Default.Person, data = "$attenders Attendees")
+                DataTournament(icon = Icons.Default.Person, data = "$attenders "+ stringResource(R.string.attendees))
                 DataTournament(icon = Icons.Default.LocationOn, data = venueAddress)
                 contact()
             }

@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">SayGG</string>
-    <string name="are_you_sure_exit">are you sure exit?</string>
+    <string name="are_you_sure_exit">Are you sure exit?</string>
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
     <string name="tournaments">Tournaments</string>
+    <string name="attendees">Attendees</string>
 </resources>
