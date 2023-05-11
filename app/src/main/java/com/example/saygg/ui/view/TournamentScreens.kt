@@ -168,8 +168,8 @@ fun TournamentThumbnail(
     val end = timeStampToDate(endAt)
     val date = "$start - $end"
 
-    var image = ""
     val imageNoFound = R.drawable.tournament
+    var image = ""
 
     images.map { if(it.type == "profile") image = it.url  }
 
@@ -242,7 +242,7 @@ private fun DataTournament(
 fun TournamentsThumbnail(
     tournaments: TournamentUiState?,
     modifier: Modifier = Modifier,
-    navTournamentView: (String, String) -> Unit
+    navTournamentView: (String, String, List<Image>) -> Unit
 ) {
 
 
@@ -285,7 +285,7 @@ fun TournamentsThumbnail(
                     Card(
                         modifier = Modifier
                             .padding(8.dp)
-                            .clickable { navTournamentView(it.id, it.name) },
+                            .clickable { navTournamentView(it.id, it.name, it.images) },
                         elevation = CardDefaults.cardElevation(
                             defaultElevation = 8.dp
                         )

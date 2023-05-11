@@ -40,9 +40,12 @@ fun NavigationHost(
             TournamentsThumbnail(
                 tournaments = tournamentList,
                 modifier = modifier,
-                navTournamentView = { id, name ->
+                navTournamentView = { id, name, images ->
+                    var image = ""
+                    images.map { if(it.type == "profile") image = it.url  }
                     tournamentViewModel.getTournamentById(id)
                     mainViewModel.setTitle(name)
+                    mainViewModel.setImage(image)
                     navController.navigate(DTournamentView.route)
                 }
             )
@@ -53,6 +56,7 @@ fun NavigationHost(
                 modifier
             ){
                 mainViewModel.setTitle(tournamentsText)
+                mainViewModel.setImage("https://cdn-images-1.medium.com/v2/resize:fit:1200/1*Dv4gnBhPF8PtDcH-gjYgEQ.png")
                 navController.navigate(DTournaments.route)
             }
         }

@@ -38,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.saygg.R
 import com.example.saygg.data.model.Tournament
 import com.example.saygg.ui.NavigationHost
@@ -53,7 +54,7 @@ fun MainScreen(
     mainViewModel: MainViewModel
 ) {
     val title by mainViewModel.title.observeAsState(stringResource(id = R.string.tournaments))
-    val imageTitle by mainViewModel.imageTitle.observeAsState(R.drawable.startgg)
+    val imageTitle by mainViewModel.imageTitle.observeAsState()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -73,7 +74,7 @@ fun MainScreen(
     ) {
         Scaffold(
             topBar = {
-                MainTopAppBar(title, imageTitle) {
+                MainTopAppBar(title, imageTitle!!) {
                     coroutineScope.launch {
                         drawerState.open()
                     }
@@ -95,23 +96,23 @@ fun MainScreen(
 @Composable
 fun MainTopAppBar(
     title: String,
-    imageTitle : Int,
+    imageTitle : String,
     onMenuPressed: () -> Unit
 ) {
     TopAppBar(
         title = {
             Row(modifier = Modifier.padding(horizontal = 8.dp)) {
-                IconButton(
-                    onClick = { /*TODO*/ },
-                ) {
-                    Image(
-                        painter = painterResource(imageTitle),
+//                IconButton(
+//                    onClick = { /*TODO*/ },
+//                ) {
+                    AsyncImage(
+                        model = imageTitle,
                         contentDescription = null,
                         Modifier
                             .size(40.dp)
                             .align(CenterVertically)
                     )
-                }
+                //}
                 Text(
                     text = title,
                     Modifier.fillMaxWidth().align(CenterVertically),

@@ -9,14 +9,14 @@ class MainViewModel : ViewModel() {
     private val _title = MutableLiveData<String>();
     val title: LiveData<String> = _title
 
-    private val _imageTitle = MutableLiveData<Int>();
-    val imageTitle: LiveData<Int> = _imageTitle
+    private val _imageTitle = MutableLiveData<String>("https://cdn-images-1.medium.com/v2/resize:fit:1200/1*Dv4gnBhPF8PtDcH-gjYgEQ.png");
+    val imageTitle: LiveData<String> = _imageTitle
 
     fun setTitle(title : String){
         _title.value = title
     }
 
-    fun setImage(image : Int){
+    fun setImage(image : String){
         _imageTitle.value = image
     }
 }
