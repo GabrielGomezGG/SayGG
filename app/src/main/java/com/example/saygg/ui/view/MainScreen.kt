@@ -114,7 +114,7 @@ fun MainTopAppBar(
                 }
                 Text(
                     text = title,
-                    Modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth().align(CenterVertically),
                     textAlign = TextAlign.Center
                 )
             }

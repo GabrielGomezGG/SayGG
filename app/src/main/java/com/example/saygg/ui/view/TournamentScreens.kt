@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -57,6 +58,7 @@ import com.example.saygg.utils.timeStampToDate
 @Composable
 fun TournamentView(
     tournamentValue: TournamentUiState?,
+    modifier: Modifier = Modifier,
     onClickBackHandler: () -> Unit
 ) {
     when (tournamentValue) {
@@ -90,20 +92,25 @@ fun TournamentView(
                 }
             }
 
-            Column(Modifier.fillMaxWidth()) {
+            Column(modifier = modifier) {
                 if (imageBanner.isNotEmpty()) {
                     SubcomposeAsyncImage(
                         model = imageBanner,
                         contentDescription = null,
+                        contentScale = ContentScale.FillWidth,
                         modifier = Modifier
                             .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
                     )
                 }
                 Card(
                     modifier = Modifier
-                        .padding(8.dp),
+                        .padding(vertical = 8.dp),
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 8.dp
+                    ),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background
                     )
                 ) {
                     TournamentThumbnail(
@@ -164,11 +171,7 @@ fun TournamentThumbnail(
     var image = ""
     val imageNoFound = R.drawable.tournament
 
-    images.forEach {
-        if (it.type == "profile") {
-            image = it.url
-        }
-    }
+    images.map { if(it.type == "profile") image = it.url  }
 
     Column(
         modifier = Modifier
@@ -179,7 +182,10 @@ fun TournamentThumbnail(
             SubcomposeAsyncImage(
                 model = image.ifEmpty { imageNoFound },
                 loading = {
-                    CircularProgressIndicator()
+                    GenericBox {
+                        CircularProgressIndicator()
+                    }
+
                 },
                 contentScale = ContentScale.FillWidth,
                 contentDescription = null,
@@ -196,7 +202,10 @@ fun TournamentThumbnail(
             ) {
                 DataTournament(icon = null, data = title, MaterialTheme.typography.titleMedium)
                 DataTournament(icon = Icons.Default.DateRange, data = date)
-                DataTournament(icon = Icons.Default.Person, data = "$attenders "+ stringResource(R.string.attendees))
+                DataTournament(
+                    icon = Icons.Default.Person,
+                    data = "$attenders " + stringResource(R.string.attendees)
+                )
                 DataTournament(icon = Icons.Default.LocationOn, data = venueAddress)
                 contact()
             }
@@ -317,13 +326,19 @@ private fun MainDialogAlert(
                 },
                 confirmButton = {
                     TextButton(onClick = { onClickButton() }) {
-                        Text(text = stringResource(R.string.exit), style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            text = stringResource(R.string.exit),
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
 
                 },
                 dismissButton = {
                     TextButton(onClick = { onDismissButton() }) {
-                        Text(text = stringResource(R.string.cancel), style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            text = stringResource(R.string.cancel),
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
                 }
             )

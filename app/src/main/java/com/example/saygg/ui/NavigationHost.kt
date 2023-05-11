@@ -1,9 +1,11 @@
 package com.example.saygg.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,7 +35,6 @@ fun NavigationHost(
     NavHost(
         navController = navController,
         startDestination = DTournaments.route,
-        modifier = modifier
     ){
         composable(DTournaments.route){
             TournamentsThumbnail(
@@ -48,7 +49,8 @@ fun NavigationHost(
         }
         composable(DTournamentView.route){
             TournamentView(
-                tournament
+                tournament,
+                modifier
             ){
                 mainViewModel.setTitle(tournamentsText)
                 navController.navigate(DTournaments.route)
