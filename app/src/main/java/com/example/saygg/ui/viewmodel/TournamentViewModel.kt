@@ -15,11 +15,11 @@ import javax.inject.Inject
 class TournamentViewModel @Inject constructor(
     private val tournamentRepository: TournamentRepository
 ) : ViewModel() {
-    private val _tournamentList = MutableLiveData<TournamentUiState>(TournamentUiState.Loading);
+    private val _tournamentList = MutableLiveData<TournamentUiState>(TournamentUiState.Loading)
     val tournamentList: LiveData<TournamentUiState> = _tournamentList
 
-    private val _tournament = MutableLiveData<Tournament>();
-    val tournament: LiveData<Tournament> = _tournament
+    private val _tournament = MutableLiveData<TournamentUiState>(TournamentUiState.Loading)
+    val tournament: LiveData<TournamentUiState> = _tournament
 
     init {
         getTournamentList("AR", 20)
@@ -32,6 +32,7 @@ class TournamentViewModel @Inject constructor(
     }
 
     fun getTournamentById(id : String){
+        _tournament.value = TournamentUiState.Loading
         viewModelScope.launch {
             _tournament.value = tournamentRepository.getTournamentById(id)
         }

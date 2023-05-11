@@ -1,11 +1,12 @@
 package com.example.saygg.ui.view
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,86 +25,102 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
-import coil.request.ImageRequest
 import com.example.saygg.R
 import com.example.saygg.data.model.Image
 import com.example.saygg.data.model.Tournament
+import com.example.saygg.ui.uistate.TournamentUiState
 import com.example.saygg.utils.timeStampToDate
 
 @Composable
 fun TournamentView(
-    tournament : Tournament
+    tournamentValue: TournamentUiState?
 ) {
+    when (tournamentValue) {
 
-    var imageBanner = ""
-
-    tournament.images.forEach {
-        if(it.type == "banner"){
-            imageBanner = it.url
+        is TournamentUiState.Error -> TODO()
+        TournamentUiState.Loading -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center) {
+                CircularProgressIndicator()
+            }
         }
-    }
 
-    Column(Modifier.fillMaxWidth()) {
-        if(imageBanner.isNotEmpty()){
-            SubcomposeAsyncImage(
-                model = imageBanner,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-        }
-        Card(
-            modifier = Modifier
-                .padding(8.dp),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
-            )
-        ) {
-            TournamentThumbnail(
-                images = tournament.images,
-                title = tournament.name,
-                starAt = tournament.startAt,
-                endAt = tournament.endAt,
-                attenders = tournament.numAttendees,
-                venueAddress = tournament.venueAddress,
-                contact = {
-                    Row(Modifier.fillMaxWidth()) {
-                        if (tournament.primaryContactType == "discord") {
-                            Icon(
-                                painter = painterResource(id = R.drawable.discord),
-                                contentDescription = null
-                            )
-                        }else{
-                            Icon(
-                                imageVector = Icons.Default.Email,
-                                contentDescription = null
-                            )
-                        }
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(
-                            text = tournament.primaryContact,
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 2.dp),
-                            style = MaterialTheme.typography.labelMedium,
-                        )
-                    }
-                    //DataTournament(icon = Icons.Default.LocationOn, data = tournament.primaryContact)
+        is TournamentUiState.Success<*> -> {
+
+            val tournament = tournamentValue.values as Tournament
+
+            var imageBanner = ""
+
+            tournament.images.forEach {
+                if (it.type == "banner") {
+                    imageBanner = it.url
                 }
-            )
+            }
+
+            Column(Modifier.fillMaxWidth()) {
+                if (imageBanner.isNotEmpty()) {
+                    SubcomposeAsyncImage(
+                        model = imageBanner,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }
+                Card(
+                    modifier = Modifier
+                        .padding(8.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 8.dp
+                    )
+                ) {
+                    TournamentThumbnail(
+                        images = tournament.images,
+                        title = tournament.name,
+                        starAt = tournament.startAt,
+                        endAt = tournament.endAt,
+                        attenders = tournament.numAttendees,
+                        venueAddress = tournament.venueAddress,
+                        contact = {
+                            Row(Modifier.fillMaxWidth()) {
+                                if (tournament.primaryContactType == "discord") {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.discord),
+                                        contentDescription = null
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Default.Email,
+                                        contentDescription = null
+                                    )
+                                }
+                                Spacer(modifier = Modifier.size(4.dp))
+                                Text(
+                                    text = tournament.primaryContact,
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 2.dp),
+                                    style = MaterialTheme.typography.labelMedium,
+                                )
+                            }
+                        }
+                    )
+                }
+            }
         }
+
+        null -> TODO()
     }
+
+
 }
 
 @Composable
@@ -113,8 +130,8 @@ fun TournamentThumbnail(
     starAt: Int,
     endAt: Int,
     attenders: Int,
-    venueAddress : String,
-    contact : @Composable () -> Unit = {}
+    venueAddress: String,
+    contact: @Composable () -> Unit = {}
 ) {
     val start = timeStampToDate(starAt)
     val end = timeStampToDate(endAt)
@@ -153,7 +170,7 @@ fun TournamentThumbnail(
                     .align(CenterVertically)
                     .padding(horizontal = 8.dp)
             ) {
-                DataTournament(icon = null, data = title,MaterialTheme.typography.titleMedium)
+                DataTournament(icon = null, data = title, MaterialTheme.typography.titleMedium)
                 DataTournament(icon = Icons.Default.DateRange, data = date)
                 DataTournament(icon = Icons.Default.Person, data = "$attenders Attendees")
                 DataTournament(icon = Icons.Default.LocationOn, data = venueAddress)
@@ -167,7 +184,7 @@ fun TournamentThumbnail(
 fun DataTournament(
     icon: ImageVector?,
     data: String,
-    style : TextStyle = MaterialTheme.typography.labelMedium
+    style: TextStyle = MaterialTheme.typography.labelMedium
 ) {
     Row(Modifier.fillMaxWidth()) {
         if (icon != null) {
@@ -192,7 +209,7 @@ fun DataTournament(
 fun TournamentsThumbnail(
     tournamentList: List<Tournament>,
     modifier: Modifier = Modifier,
-    navTournamentView : (String) -> Unit
+    navTournamentView: (String) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         items(tournamentList) {

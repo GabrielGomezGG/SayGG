@@ -148,9 +148,9 @@ fun MainContent(
             }
         }
 
-        is TournamentUiState.Success -> {
+        is TournamentUiState.Success<*> -> {
             NavigationHost(
-                tournamentList = tournaments.tournamentList,
+                tournamentList = tournaments.values as List<Tournament>,
                 modifier = Modifier.padding(padding),
                 tournamentViewModel
             )

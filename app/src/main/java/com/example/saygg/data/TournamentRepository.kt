@@ -24,13 +24,13 @@ class TournamentRepository @Inject constructor(
         }
     }
 
-    suspend fun getTournamentById(id : String): Tournament{
+    suspend fun getTournamentById(id : String): TournamentUiState{
         return try{
             val tournamentApi = apolloClient.query(TournamentByIdQuery(id)).execute()
             val tournamentById = tournamentApi.data?.tournament?.toTournament()
-            tournamentById ?: Tournament()
+            TournamentUiState.Success(tournamentById ?: Tournament())
         }catch (e : ApolloException){
-            return Tournament()
+            return TournamentUiState.Error(e.message.toString())
         }
     }
 }

@@ -42,7 +42,7 @@ fun NavigationHost(
         }
         composable(DTournamentView.route){
             TournamentView(
-                tournament ?: Tournament()
+                tournament
             )
         }
     }
