@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,7 +15,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -43,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import com.example.saygg.R
 import com.example.saygg.data.model.Tournament
 import com.example.saygg.ui.NavigationHost
-import com.example.saygg.ui.uistate.TournamentUiState
 import com.example.saygg.ui.viewmodel.MainViewModel
 import com.example.saygg.ui.viewmodel.TournamentViewModel
 import kotlinx.coroutines.launch
@@ -57,8 +53,6 @@ fun MainScreen(
 ) {
     val title by mainViewModel.title.observeAsState("Tournaments")
     val imageTitle by mainViewModel.imageTitle.observeAsState(R.drawable.startgg)
-
-    val tournaments by tournamentViewModel.tournamentList.observeAsState()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -85,7 +79,10 @@ fun MainScreen(
                 }
             }
         ) {
-            MainContent(tournaments, it, tournamentViewModel)
+            MainContent(
+                it,
+                tournamentViewModel
+            )
         }
     }
 
@@ -104,7 +101,7 @@ fun MainTopAppBar(title: String, imageTitle : Int, onMenuPressed: () -> Unit) {
                     Image(
                         painter = painterResource(imageTitle),
                         contentDescription = null,
-                        Modifier.size(48.dp)
+                        Modifier.size(40.dp)
                     )
                 }
                 Text(
@@ -130,34 +127,13 @@ fun MainTopAppBar(title: String, imageTitle : Int, onMenuPressed: () -> Unit) {
 
 @Composable
 fun MainContent(
-    tournaments: TournamentUiState?,
     padding: PaddingValues,
-    tournamentViewModel: TournamentViewModel
+    tournamentViewModel: TournamentViewModel,
 ) {
-    when (tournaments) {
-        is TournamentUiState.Error -> {
-            Text(text = tournaments.message)
-        }
-
-        is TournamentUiState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-
-        is TournamentUiState.Success<*> -> {
-            NavigationHost(
-                tournamentList = tournaments.values as List<Tournament>,
-                modifier = Modifier.padding(padding),
-                tournamentViewModel
-            )
-        }
-
-        else -> {}
-    }
+    NavigationHost(
+        modifier = Modifier.padding(padding),
+        tournamentViewModel
+    )
 }
 
 

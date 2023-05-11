@@ -47,7 +47,11 @@ fun TournamentView(
 ) {
     when (tournamentValue) {
 
-        is TournamentUiState.Error -> TODO()
+        is TournamentUiState.Error -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center) {
+                Text(text = tournamentValue.message)
+            }
+        }
         TournamentUiState.Loading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center) {
                 CircularProgressIndicator()
@@ -207,29 +211,56 @@ fun DataTournament(
 
 @Composable
 fun TournamentsThumbnail(
-    tournamentList: List<Tournament>,
+    //tournamentList: List<Tournament>,
+    tournaments : TournamentUiState?,
     modifier: Modifier = Modifier,
     navTournamentView: (String) -> Unit
 ) {
-    LazyColumn(modifier = modifier) {
-        items(tournamentList) {
-            Card(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clickable { navTournamentView(it.id) },
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 8.dp
-                )
+    when (tournaments) {
+        is TournamentUiState.Error -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Center
             ) {
-                TournamentThumbnail(
-                    images = it.images,
-                    endAt = it.endAt,
-                    starAt = it.startAt,
-                    title = it.name,
-                    attenders = it.numAttendees,
-                    venueAddress = it.venueAddress
-                )
+                Text(text = tournaments.message)
+            }
+
+        }
+
+        is TournamentUiState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Center
+            ) {
+                CircularProgressIndicator()
             }
         }
+
+        is TournamentUiState.Success<*> -> {
+            val tournamentList = tournaments.values as List<Tournament>
+            LazyColumn(modifier = modifier) {
+                items(tournamentList) {
+                    Card(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clickable { navTournamentView(it.id) },
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 8.dp
+                        )
+                    ) {
+                        TournamentThumbnail(
+                            images = it.images,
+                            endAt = it.endAt,
+                            starAt = it.startAt,
+                            title = it.name,
+                            attenders = it.numAttendees,
+                            venueAddress = it.venueAddress
+                        )
+                    }
+                }
+            }
+        }
+        null -> {}
     }
+
 }

@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.saygg.data.model.Tournament
 import com.example.saygg.ui.view.TournamentView
 import com.example.saygg.ui.view.TournamentsThumbnail
 import com.example.saygg.ui.viewmodel.TournamentViewModel
@@ -16,12 +15,12 @@ import com.example.saygg.utils.Destinations.DTournaments
 
 @Composable
 fun NavigationHost(
-    tournamentList: List<Tournament>,
     modifier: Modifier = Modifier,
-    tournamentViewModel: TournamentViewModel
+    tournamentViewModel: TournamentViewModel,
 ) {
 
     val tournament by tournamentViewModel.tournament.observeAsState()
+    val tournamentList by tournamentViewModel.tournamentList.observeAsState()
 
     val navController = rememberNavController()
 
@@ -32,7 +31,7 @@ fun NavigationHost(
     ){
         composable(DTournaments.route){
             TournamentsThumbnail(
-                tournamentList = tournamentList,
+                tournaments = tournamentList,
                 modifier = modifier,
                 navTournamentView = {
                     tournamentViewModel.getTournamentById(it)
