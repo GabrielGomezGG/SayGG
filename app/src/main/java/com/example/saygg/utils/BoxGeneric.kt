@@ -8,9 +8,10 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun GenericBox(
+    modifier : Modifier = Modifier,
     composable : @Composable () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
         composable()
     }
 }

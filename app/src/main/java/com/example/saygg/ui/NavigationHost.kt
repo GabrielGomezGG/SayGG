@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.saygg.R
 import com.example.saygg.ui.view.TournamentView
 import com.example.saygg.ui.view.TournamentsThumbnail
 import com.example.saygg.ui.viewmodel.MainViewModel
@@ -25,6 +27,8 @@ fun NavigationHost(
     val tournamentList by tournamentViewModel.tournamentList.observeAsState()
 
     val navController = rememberNavController()
+
+    val tournamentsText = stringResource(R.string.tournaments)
 
     NavHost(
         navController = navController,
@@ -46,7 +50,7 @@ fun NavigationHost(
             TournamentView(
                 tournament
             ){
-                mainViewModel.setTitle("Tournament")
+                mainViewModel.setTitle(tournamentsText)
                 navController.navigate(DTournaments.route)
             }
         }

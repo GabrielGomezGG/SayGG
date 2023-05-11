@@ -41,8 +41,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
 import com.example.saygg.data.model.Image
@@ -306,16 +309,21 @@ private fun MainDialogAlert(
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { onDismissButton() },
-                title = { Text(text = "¿Seguro que quieres salir?") },
+                title = {
+                    Text(
+                        text = stringResource(R.string.are_you_sure_exit),
+                        textAlign = TextAlign.Center
+                    )
+                },
                 confirmButton = {
                     TextButton(onClick = { onClickButton() }) {
-                        Text(text = "Salir")
+                        Text(text = stringResource(R.string.exit), style = MaterialTheme.typography.titleMedium)
                     }
 
                 },
                 dismissButton = {
                     TextButton(onClick = { onDismissButton() }) {
-                        Text(text = "Cancelar")
+                        Text(text = stringResource(R.string.cancel), style = MaterialTheme.typography.titleMedium)
                     }
                 }
             )
