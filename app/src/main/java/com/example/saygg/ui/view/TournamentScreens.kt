@@ -1,5 +1,7 @@
 package com.example.saygg.ui.view
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,19 +20,26 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -39,26 +48,34 @@ import com.example.saygg.R
 import com.example.saygg.data.model.Image
 import com.example.saygg.data.model.Tournament
 import com.example.saygg.ui.uistate.TournamentUiState
+import com.example.saygg.utils.GenericBox
 import com.example.saygg.utils.timeStampToDate
 
 @Composable
 fun TournamentView(
-    tournamentValue: TournamentUiState?
+    tournamentValue: TournamentUiState?,
+    onClickBackHandler: () -> Unit
 ) {
     when (tournamentValue) {
 
         is TournamentUiState.Error -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center) {
+            GenericBox {
                 Text(text = tournamentValue.message)
             }
+
         }
+
         TournamentUiState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Center) {
+            GenericBox {
                 CircularProgressIndicator()
             }
         }
 
         is TournamentUiState.Success<*> -> {
+
+            BackHandler {
+                onClickBackHandler()
+            }
 
             val tournament = tournamentValue.values as Tournament
 
@@ -185,7 +202,7 @@ fun TournamentThumbnail(
 }
 
 @Composable
-fun DataTournament(
+private fun DataTournament(
     icon: ImageVector?,
     data: String,
     style: TextStyle = MaterialTheme.typography.labelMedium
@@ -211,20 +228,17 @@ fun DataTournament(
 
 @Composable
 fun TournamentsThumbnail(
-    //tournamentList: List<Tournament>,
-    tournaments : TournamentUiState?,
+    tournaments: TournamentUiState?,
     modifier: Modifier = Modifier,
-    navTournamentView: (String) -> Unit
+    navTournamentView: (String, String) -> Unit
 ) {
+
+
     when (tournaments) {
         is TournamentUiState.Error -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Center
-            ) {
+            GenericBox {
                 Text(text = tournaments.message)
             }
-
         }
 
         is TournamentUiState.Loading -> {
@@ -238,12 +252,15 @@ fun TournamentsThumbnail(
 
         is TournamentUiState.Success<*> -> {
             val tournamentList = tournaments.values as List<Tournament>
+
+
+
             LazyColumn(modifier = modifier) {
                 items(tournamentList) {
                     Card(
                         modifier = Modifier
                             .padding(8.dp)
-                            .clickable { navTournamentView(it.id) },
+                            .clickable { navTournamentView(it.id, it.name) },
                         elevation = CardDefaults.cardElevation(
                             defaultElevation = 8.dp
                         )
@@ -260,7 +277,9 @@ fun TournamentsThumbnail(
                 }
             }
         }
+
         null -> {}
     }
 
 }
+

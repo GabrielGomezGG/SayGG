@@ -2,7 +2,6 @@ package com.example.saygg.ui.view
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -72,7 +72,7 @@ fun MainScreen(
     ) {
         Scaffold(
             topBar = {
-                MainTopAppBar(title, imageTitle = imageTitle) {
+                MainTopAppBar(title, imageTitle) {
                     coroutineScope.launch {
                         drawerState.open()
                     }
@@ -81,7 +81,8 @@ fun MainScreen(
         ) {
             MainContent(
                 it,
-                tournamentViewModel
+                tournamentViewModel,
+                mainViewModel
             )
         }
     }
@@ -91,17 +92,21 @@ fun MainScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainTopAppBar(title: String, imageTitle : Int, onMenuPressed: () -> Unit) {
+fun MainTopAppBar(
+    title: String,
+    imageTitle : Int,
+    onMenuPressed: () -> Unit
+) {
     TopAppBar(
         title = {
-            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+            Row(modifier = Modifier.padding(horizontal = 8.dp)) {
                 IconButton(
                     onClick = { /*TODO*/ },
                 ) {
                     Image(
                         painter = painterResource(imageTitle),
                         contentDescription = null,
-                        Modifier.size(40.dp)
+                        Modifier.size(40.dp).align(CenterVertically)
                     )
                 }
                 Text(
@@ -129,10 +134,12 @@ fun MainTopAppBar(title: String, imageTitle : Int, onMenuPressed: () -> Unit) {
 fun MainContent(
     padding: PaddingValues,
     tournamentViewModel: TournamentViewModel,
+    mainViewModel: MainViewModel,
 ) {
     NavigationHost(
         modifier = Modifier.padding(padding),
-        tournamentViewModel
+        tournamentViewModel,
+        mainViewModel
     )
 }
 
