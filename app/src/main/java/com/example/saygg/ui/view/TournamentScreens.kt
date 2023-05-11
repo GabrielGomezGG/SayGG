@@ -253,7 +253,20 @@ fun TournamentsThumbnail(
         is TournamentUiState.Success<*> -> {
             val tournamentList = tournaments.values as List<Tournament>
 
+            val activity = LocalContext.current as? Activity
 
+            var show by remember {
+                mutableStateOf(false)
+            }
+
+            BackHandler {
+                show = true
+            }
+            MainDialogAlert(
+                showDialog = show,
+                onDismissButton = { show = false },
+                onClickButton = { activity?.finish() }
+            )
 
             LazyColumn(modifier = modifier) {
                 items(tournamentList) {
@@ -283,3 +296,29 @@ fun TournamentsThumbnail(
 
 }
 
+@Composable
+private fun MainDialogAlert(
+    showDialog: Boolean,
+    onDismissButton: () -> Unit,
+    onClickButton: () -> Unit,
+) {
+    GenericBox {
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { onDismissButton() },
+                title = { Text(text = "¿Seguro que quieres salir?") },
+                confirmButton = {
+                    TextButton(onClick = { onClickButton() }) {
+                        Text(text = "Salir")
+                    }
+
+                },
+                dismissButton = {
+                    TextButton(onClick = { onDismissButton() }) {
+                        Text(text = "Cancelar")
+                    }
+                }
+            )
+        }
+    }
+}
