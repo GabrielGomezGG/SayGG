@@ -1,4 +1,4 @@
-package com.example.saygg.main.view
+package com.example.saygg.main.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -41,9 +41,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.saygg.NavigationHost
 import com.example.saygg.R
-import com.example.saygg.main.viewmodel.MainViewModel
 import com.example.saygg.tournament.data.model.Tournament
-import com.example.saygg.tournament.viewmodel.TournamentViewModel
+import com.example.saygg.tournament.ui.TournamentViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

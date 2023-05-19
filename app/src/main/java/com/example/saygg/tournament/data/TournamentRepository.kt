@@ -5,8 +5,8 @@ import com.apollographql.apollo3.exception.ApolloException
 import com.example.saygg.TournamentByIdQuery
 import com.example.saygg.TournamentsByCountryQuery
 import com.example.saygg.tournament.data.model.Tournament
-import com.example.saygg.tournament.uistate.TournamentUiState
-import com.example.saygg.utils.toTournament
+import com.example.saygg.tournament.ui.TournamentUiState
+import com.example.saygg.tournament.utils.toTournament
 import javax.inject.Inject
 
 class TournamentRepository @Inject constructor(

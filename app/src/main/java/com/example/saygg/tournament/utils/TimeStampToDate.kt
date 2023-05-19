@@ -1,4 +1,4 @@
-package com.example.saygg.utils
+package com.example.saygg.tournament.utils
 
 import java.text.SimpleDateFormat
 import java.util.Date

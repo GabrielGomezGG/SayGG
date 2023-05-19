@@ -1,4 +1,4 @@
-package com.example.saygg.tournament.view
+package com.example.saygg.tournament.ui
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
@@ -49,9 +49,8 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
 import com.example.saygg.tournament.data.model.Image
 import com.example.saygg.tournament.data.model.Tournament
-import com.example.saygg.tournament.uistate.TournamentUiState
 import com.example.saygg.utils.GenericBox
-import com.example.saygg.utils.timeStampToDate
+import com.example.saygg.tournament.utils.timeStampToDate
 
 @Composable
 fun TournamentView(

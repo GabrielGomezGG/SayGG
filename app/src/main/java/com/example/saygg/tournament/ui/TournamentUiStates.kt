@@ -1,4 +1,4 @@
-package com.example.saygg.tournament.uistate
+package com.example.saygg.tournament.ui
 
 sealed interface TournamentUiState{
     data class Success<T>(val values: T) : TournamentUiState

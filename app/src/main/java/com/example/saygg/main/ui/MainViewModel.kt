@@ -1,4 +1,4 @@
-package com.example.saygg.main.viewmodel
+package com.example.saygg.main.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

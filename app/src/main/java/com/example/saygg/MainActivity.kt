@@ -10,9 +10,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.saygg.ui.theme.SayGGTheme
-import com.example.saygg.main.view.MainScreen
-import com.example.saygg.main.viewmodel.MainViewModel
-import com.example.saygg.tournament.viewmodel.TournamentViewModel
+import com.example.saygg.main.ui.MainScreen
+import com.example.saygg.main.ui.MainViewModel
+import com.example.saygg.tournament.ui.TournamentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

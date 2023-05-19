@@ -1,4 +1,4 @@
-package com.example.saygg.utils
+package com.example.saygg.tournament.utils
 
 import com.example.saygg.TournamentByIdQuery
 import com.example.saygg.TournamentsByCountryQuery

@@ -8,10 +8,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.saygg.tournament.view.TournamentView
-import com.example.saygg.tournament.view.TournamentsThumbnail
-import com.example.saygg.main.viewmodel.MainViewModel
-import com.example.saygg.tournament.viewmodel.TournamentViewModel
+import com.example.saygg.tournament.ui.TournamentView
+import com.example.saygg.tournament.ui.TournamentsThumbnail
+import com.example.saygg.main.ui.MainViewModel
+import com.example.saygg.tournament.ui.TournamentViewModel
 import com.example.saygg.utils.Destinations.DTournamentView
 import com.example.saygg.utils.Destinations.DTournaments
 
