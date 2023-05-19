@@ -1,4 +1,4 @@
-package com.example.saygg.data.model
+package com.example.saygg.tournament.data.model
 
 data class Image(
     val type: String,

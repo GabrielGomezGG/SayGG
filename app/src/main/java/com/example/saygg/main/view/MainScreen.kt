@@ -1,4 +1,4 @@
-package com.example.saygg.ui.view
+package com.example.saygg.main.view
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -39,11 +39,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.saygg.NavigationHost
 import com.example.saygg.R
-import com.example.saygg.data.model.Tournament
-import com.example.saygg.ui.NavigationHost
-import com.example.saygg.ui.viewmodel.MainViewModel
-import com.example.saygg.ui.viewmodel.TournamentViewModel
+import com.example.saygg.main.viewmodel.MainViewModel
+import com.example.saygg.tournament.data.model.Tournament
+import com.example.saygg.tournament.viewmodel.TournamentViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -55,6 +55,8 @@ fun MainScreen(
 ) {
     val title by mainViewModel.title.observeAsState(stringResource(id = R.string.tournaments))
     val imageTitle by mainViewModel.imageTitle.observeAsState()
+
+    val isTournamentView by tournamentViewModel.isViewTournament.observeAsState(false)
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -88,8 +90,6 @@ fun MainScreen(
             )
         }
     }
-
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -115,7 +115,9 @@ fun MainTopAppBar(
                 //}
                 Text(
                     text = title,
-                    Modifier.fillMaxWidth().align(CenterVertically),
+                    Modifier
+                        .fillMaxWidth()
+                        .align(CenterVertically),
                     textAlign = TextAlign.Center
                 )
             }

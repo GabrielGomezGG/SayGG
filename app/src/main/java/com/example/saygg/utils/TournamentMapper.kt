@@ -2,10 +2,10 @@ package com.example.saygg.utils
 
 import com.example.saygg.TournamentByIdQuery
 import com.example.saygg.TournamentsByCountryQuery
-import com.example.saygg.data.model.Image
-import com.example.saygg.data.model.Tournament
+import com.example.saygg.tournament.data.model.Image
+import com.example.saygg.tournament.data.model.Tournament
 
-fun TournamentsByCountryQuery.Node.toTournament() : Tournament{
+fun TournamentsByCountryQuery.Node.toTournament() : Tournament {
     return Tournament(
         images = images!!.map { Image(
             type = it?.type ?: "",
@@ -19,7 +19,7 @@ fun TournamentsByCountryQuery.Node.toTournament() : Tournament{
     )
 }
 
-fun TournamentByIdQuery.Tournament.toTournament() : Tournament{
+fun TournamentByIdQuery.Tournament.toTournament() : Tournament {
     return Tournament(
         images = images!!.map { Image(
             type = it?.type ?: "",

@@ -1,10 +1,15 @@
-package com.example.saygg.ui.viewmodel
+package com.example.saygg.main.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+
+) : ViewModel() {
 
     private val _title = MutableLiveData<String>();
     val title: LiveData<String> = _title

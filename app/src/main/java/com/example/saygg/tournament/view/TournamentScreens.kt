@@ -1,4 +1,4 @@
-package com.example.saygg.ui.view
+package com.example.saygg.tournament.view
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
@@ -37,7 +37,6 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -46,12 +45,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
-import com.example.saygg.data.model.Image
-import com.example.saygg.data.model.Tournament
-import com.example.saygg.ui.uistate.TournamentUiState
+import com.example.saygg.tournament.data.model.Image
+import com.example.saygg.tournament.data.model.Tournament
+import com.example.saygg.tournament.uistate.TournamentUiState
 import com.example.saygg.utils.GenericBox
 import com.example.saygg.utils.timeStampToDate
 
@@ -96,6 +94,11 @@ fun TournamentView(
                 if (imageBanner.isNotEmpty()) {
                     SubcomposeAsyncImage(
                         model = imageBanner,
+                        loading = {
+                            GenericBox {
+                                CircularProgressIndicator()
+                            }
+                        },
                         contentDescription = null,
                         contentScale = ContentScale.FillWidth,
                         modifier = Modifier
@@ -164,14 +167,10 @@ fun TournamentThumbnail(
     venueAddress: String,
     contact: @Composable () -> Unit = {}
 ) {
-    val start = timeStampToDate(starAt)
-    val end = timeStampToDate(endAt)
-    val date = "$start - $end"
-
-    val imageNoFound = R.drawable.tournament
+    val date = timeStampToDate(starAt) + " - " + timeStampToDate(endAt)
     var image = ""
 
-    images.map { if(it.type == "profile") image = it.url  }
+    images.map { if (it.type == "profile") image = it.url }
 
     Column(
         modifier = Modifier
@@ -180,7 +179,7 @@ fun TournamentThumbnail(
     ) {
         Row(Modifier) {
             SubcomposeAsyncImage(
-                model = image.ifEmpty { imageNoFound },
+                model = image.ifEmpty { R.drawable.tournament },
                 loading = {
                     GenericBox {
                         CircularProgressIndicator()
