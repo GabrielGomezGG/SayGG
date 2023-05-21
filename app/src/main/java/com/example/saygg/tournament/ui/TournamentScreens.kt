@@ -49,8 +49,8 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
 import com.example.saygg.tournament.data.model.Image
 import com.example.saygg.tournament.data.model.Tournament
-import com.example.saygg.utils.GenericBox
 import com.example.saygg.tournament.utils.timeStampToDate
+import com.example.saygg.utils.GenericBox
 
 @Composable
 fun TournamentView(

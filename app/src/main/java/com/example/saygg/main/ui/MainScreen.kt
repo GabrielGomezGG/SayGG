@@ -1,6 +1,5 @@
 package com.example.saygg.main.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -27,8 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -39,23 +36,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.saygg.NavigationHost
 import com.example.saygg.R
-import com.example.saygg.tournament.data.model.Tournament
-import com.example.saygg.tournament.ui.TournamentViewModel
+import com.example.saygg.tournament.data.model.Image
+import com.example.saygg.tournament.ui.TournamentUiState
+import com.example.saygg.tournament.ui.TournamentsThumbnail
 import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    tournamentViewModel: TournamentViewModel,
-    mainViewModel: MainViewModel
+    tournamentList: TournamentUiState?,
+    navTournamentView : (String,String,List<Image>) -> Unit
 ) {
-    val title by mainViewModel.title.observeAsState(stringResource(id = R.string.tournaments))
-    val imageTitle by mainViewModel.imageTitle.observeAsState()
-
-    val isTournamentView by tournamentViewModel.isViewTournament.observeAsState(false)
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -75,7 +68,10 @@ fun MainScreen(
     ) {
         Scaffold(
             topBar = {
-                MainTopAppBar(title, imageTitle!!) {
+                MainTopAppBar(
+                    R.string.tournaments,
+                    R.drawable.startgg
+                ) {
                     coroutineScope.launch {
                         drawerState.open()
                     }
@@ -84,8 +80,8 @@ fun MainScreen(
         ) {
             MainContent(
                 it,
-                tournamentViewModel,
-                mainViewModel
+                tournamentList,
+                navTournamentView
             )
         }
     }
@@ -93,9 +89,9 @@ fun MainScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainTopAppBar(
-    title: String,
-    imageTitle : String,
+fun <T> MainTopAppBar(
+    title: T,
+    imageTitle : T,
     onMenuPressed: () -> Unit
 ) {
     TopAppBar(
@@ -113,7 +109,7 @@ fun MainTopAppBar(
                     )
                 //}
                 Text(
-                    text = title,
+                    text = if (title is Int) stringResource(id = title) else title.toString(),
                     Modifier
                         .fillMaxWidth()
                         .align(CenterVertically),
@@ -136,21 +132,23 @@ fun MainTopAppBar(
 }
 
 @Composable
-fun MainContent(
+private fun MainContent(
     padding: PaddingValues,
-    tournamentViewModel: TournamentViewModel,
-    mainViewModel: MainViewModel,
+    tournamentList : TournamentUiState?,
+    navTournamentView : (String,String,List<Image>) -> Unit
 ) {
-    NavigationHost(
+    TournamentsThumbnail(
+        tournaments = tournamentList,
         modifier = Modifier.padding(padding),
-        tournamentViewModel,
-        mainViewModel
+        navTournamentView = { id, name, images ->
+            navTournamentView(id,name,images)
+        }
     )
 }
 
 
 @Composable
-fun MainNavigationDrawerItems(tournamentItem: List<Tournament> = emptyList()) {
+fun MainNavigationDrawerItems() {
 
     //Start GG icon
     MainNavigationDrawerItem(

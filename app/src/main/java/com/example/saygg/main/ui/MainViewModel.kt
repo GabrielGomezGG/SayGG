@@ -14,7 +14,7 @@ class MainViewModel @Inject constructor(
     private val _title = MutableLiveData<String>();
     val title: LiveData<String> = _title
 
-    private val _imageTitle = MutableLiveData<String>("https://cdn-images-1.medium.com/v2/resize:fit:1200/1*Dv4gnBhPF8PtDcH-gjYgEQ.png");
+    private val _imageTitle = MutableLiveData<String>();
     val imageTitle: LiveData<String> = _imageTitle
 
     fun setTitle(title : String){

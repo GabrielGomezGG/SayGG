@@ -19,9 +19,6 @@ class TournamentViewModel @Inject constructor(
     private val _tournament = MutableLiveData<TournamentUiState>(TournamentUiState.Loading)
     val tournament: LiveData<TournamentUiState> = _tournament
 
-    private val _isViewTournament = MutableLiveData(false)
-    val isViewTournament : LiveData<Boolean> = _isViewTournament
-
     init {
         getTournamentList("AR", 20)
     }
@@ -37,9 +34,5 @@ class TournamentViewModel @Inject constructor(
         viewModelScope.launch {
             _tournament.value = tournamentRepository.getTournamentById(id)
         }
-    }
-
-    fun setIsView(isEnable : Boolean){
-        _isViewTournament.value = isEnable
     }
 }
