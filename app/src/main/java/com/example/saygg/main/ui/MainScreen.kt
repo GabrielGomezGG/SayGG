@@ -30,6 +30,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -172,10 +173,10 @@ fun MainNavigationDrawerItems() {
     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 8.dp))
 
     //HELP ICON
-    MainNavigationDrawerItem(R.drawable.baseline_help_outline_24)
+    MainNavigationDrawerItem(painterResource(id = R.drawable.baseline_help_24))
 
     //language ICON
-    MainNavigationDrawerItem(R.drawable.baseline_g_translate_24)
+    MainNavigationDrawerItem(painterResource(id = R.drawable.baseline_translate_24))
 
     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 8.dp))
 
@@ -208,6 +209,13 @@ fun <T> MainNavigationDrawerItem(
                 is ImageVector -> {
                     Icon(
                         imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
+                is Painter -> {
+                    Icon(
+                        painter = icon,
                         contentDescription = null,
                         modifier = Modifier.size(48.dp)
                     )
