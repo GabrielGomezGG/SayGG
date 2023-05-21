@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
@@ -168,7 +169,7 @@ fun MainNavigationDrawerItems() {
     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 8.dp))
 
     //Add Icon
-    MainNavigationDrawerItem(icon = Icons.Filled.Add)
+    MainNavigationDrawerItem(icon = Icons.Filled.AddCircle)
 
     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 8.dp))
 
