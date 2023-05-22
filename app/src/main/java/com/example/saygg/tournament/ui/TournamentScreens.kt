@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -53,6 +54,14 @@ import com.example.saygg.tournament.data.model.Image
 import com.example.saygg.tournament.data.model.Tournament
 import com.example.saygg.tournament.utils.timeStampToDate
 import com.example.saygg.utils.GenericBox
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberMarkerState
 
 @Composable
 fun TournamentView(
@@ -77,83 +86,74 @@ fun TournamentView(
                 }
             }
 
-            Column(modifier = modifier) {
-                if (imageBanner.isNotEmpty()) {
-                    SubcomposeAsyncImage(
-                        model = imageBanner,
-                        loading = {
-                            GenericBox {
-                                CircularProgressIndicator()
-                            }
-                        },
-                        contentDescription = null,
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(8.dp))
-                    )
-                }
-                TournamentThumbnail(
-                    images = tournament.images,
-                    title = tournament.name,
-                    starAt = tournament.startAt,
-                    endAt = tournament.endAt,
-                    attenders = tournament.numAttendees,
-                    venueAddress = tournament.venueAddress,
-                    contact = {
-                        Row(Modifier.fillMaxWidth()) {
-                            IconPrimaryContact(primaryContact = tournament.primaryContactType)
-                            Spacer(modifier = Modifier.size(4.dp))
-                            Text(
-                                text = tournament.primaryContact,
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 2.dp),
-                                style = MaterialTheme.typography.labelMedium,
-                            )
-                        }
+            LazyColumn(modifier = modifier) {
+                item {
+                    if (imageBanner.isNotEmpty()) {
+                        SubcomposeAsyncImage(
+                            model = imageBanner,
+                            loading = {
+                                GenericBox {
+                                    CircularProgressIndicator()
+                                }
+                            },
+                            contentDescription = null,
+                            contentScale = ContentScale.FillWidth,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp))
+                        )
                     }
-                )
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(6.dp)) {
+                    TournamentThumbnail(
+                        images = tournament.images,
+                        title = tournament.name,
+                        starAt = tournament.startAt,
+                        endAt = tournament.endAt,
+                        attenders = tournament.numAttendees,
+                        venueAddress = tournament.venueAddress,
+                        contact = {
+                            Row(Modifier.fillMaxWidth()) {
+                                IconPrimaryContact(primaryContact = tournament.primaryContactType)
+                                Spacer(modifier = Modifier.size(4.dp))
+                                Text(
+                                    text = tournament.primaryContact,
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 2.dp),
+                                    style = MaterialTheme.typography.labelMedium,
+                                )
+                            }
+                        }
+                    )
+                    Column(
+                        Modifier
+                            .fillMaxSize()
+                            .padding(6.dp)
+                    ) {
 
-                    //Location
-                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
-                    Text(
-                        text = stringResource(R.string.location),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                        MySection(stringRes = R.string.tournament_info)
 
-                    //Contact info
-                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
-                    Text(
-                        text = stringResource(R.string.contact_info),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    ContactInfo(
-                        primaryContact = tournament.primaryContactType
-                    )
+                        //Location
+                        MySection(R.string.location)
+                        LocationTournament(
+                            lat = tournament.latitude,
+                            lng = tournament.longitude,
+                            title = tournament.venueAddress,
+                            tournamentTitle = tournament.name
+                        )
 
-                    //Admins
-                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
-                    Text(
-                        text = stringResource(R.string.admins),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                        //Contact info
+                        MySection(stringRes = R.string.contact_info)
+                        ContactInfo(
+                            primaryContact = tournament.primaryContactType
+                        )
 
-                    //Rules
-                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
-                    Text(
-                        text = stringResource(R.string.rules),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Text(text = tournament.rules)
+                        //Admins
+                        MySection(stringRes = R.string.admins)
+
+                        //Rules
+                        MySection(stringRes = R.string.rules)
+                        Text(text = tournament.rules)
+                    }
                 }
             }
         }
@@ -328,12 +328,12 @@ fun TournamentsThumbnail(
 }
 
 @Composable
-fun IconPrimaryContact(
-    primaryContact : String,
+private fun IconPrimaryContact(
+    primaryContact: String,
     modifier: Modifier = Modifier,
     tint: Color = LocalContentColor.current,
 ) {
-    when(primaryContact){
+    when (primaryContact) {
         "discord" -> {
             Icon(
                 painter = painterResource(id = R.drawable.discord),
@@ -342,6 +342,7 @@ fun IconPrimaryContact(
                 tint = tint
             )
         }
+
         "email" -> {
             Icon(
                 imageVector = Icons.Default.Email,
@@ -354,13 +355,13 @@ fun IconPrimaryContact(
 }
 
 @Composable
-fun ContactInfo(
-    primaryContact : String,
+private fun ContactInfo(
+    primaryContact: String,
 ) {
     Column {
         IconPrimaryContact(
             primaryContact = primaryContact,
-            modifier=Modifier.size(48.dp),
+            modifier = Modifier.size(48.dp),
             tint = Color(0xFF397ea8)
         )
         Text(
@@ -369,4 +370,39 @@ fun ContactInfo(
             fontSize = 20.sp
         )
     }
+}
+
+@Composable
+private fun LocationTournament(
+    lat: Double,
+    lng: Double,
+    modifier: Modifier = Modifier,
+    title : String = "",
+    tournamentTitle : String = ""
+) {
+    val marker = LatLng(lat, lng)
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(marker, 17f)
+    }
+    GoogleMap(
+        modifier = modifier.height(300.dp),
+        cameraPositionState = cameraPositionState,
+    ) {
+        Marker(
+            state = rememberMarkerState(position = marker),
+            title = title,
+            snippet = tournamentTitle,
+            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+        )
+    }
+}
+
+@Composable
+private fun MySection(stringRes: Int) {
+    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
+    Text(
+        text = stringResource(stringRes),
+        style = MaterialTheme.typography.titleMedium,
+        modifier = Modifier.fillMaxWidth()
+    )
 }

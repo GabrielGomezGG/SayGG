@@ -31,6 +31,8 @@ fun TournamentByIdQuery.Tournament.toTournament() : Tournament {
         numAttendees = numAttendees ?: 0,
         primaryContact = primaryContact ?: "",
         primaryContactType = primaryContactType ?: "",
-        rules = rules ?: ""
+        rules = rules ?: "",
+        latitude = lat ?: 0.0,
+        longitude = lng ?: 0.0
     )
 }
