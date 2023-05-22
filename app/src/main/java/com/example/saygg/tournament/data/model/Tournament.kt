@@ -10,4 +10,5 @@ data class Tournament(
     val venueAddress : String = "",
     val primaryContact : String = "",
     val primaryContactType : String = "",
+    val rules : String = ""
 )

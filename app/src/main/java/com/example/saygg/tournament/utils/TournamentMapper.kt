@@ -30,6 +30,7 @@ fun TournamentByIdQuery.Tournament.toTournament() : Tournament {
         endAt = (endAt) as Int,
         numAttendees = numAttendees ?: 0,
         primaryContact = primaryContact ?: "",
-        primaryContactType = primaryContactType ?: ""
+        primaryContactType = primaryContactType ?: "",
+        rules = rules ?: ""
     )
 }

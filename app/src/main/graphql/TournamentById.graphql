@@ -15,15 +15,17 @@ query TournamentById(
         primaryContact
         primaryContactType
         rules
-#        events{
-#            name
-#            videogame{
-#                name
-#                images{
-#                    url
-#                }
-#            }
-#        }
+        events {
+            startAt
+            name
+            videogame {
+                name
+                images {
+                    url
+                    type
+                }
+            }
+        }
 #        participants(query: {perPage: $numAttendees}) {
 #            nodes {
 #                id

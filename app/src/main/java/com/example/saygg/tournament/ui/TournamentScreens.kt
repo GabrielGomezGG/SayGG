@@ -20,14 +20,13 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,10 +42,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
+import com.example.saygg.main.ui.MainDialogAlert
 import com.example.saygg.tournament.data.model.Image
 import com.example.saygg.tournament.data.model.Tournament
 import com.example.saygg.tournament.utils.timeStampToDate
@@ -59,20 +58,6 @@ fun TournamentView(
     onClickBackHandler: () -> Unit
 ) {
     when (tournamentValue) {
-
-        is TournamentUiState.Error -> {
-            GenericBox {
-                Text(text = tournamentValue.message)
-            }
-
-        }
-
-        TournamentUiState.Loading -> {
-            GenericBox {
-                CircularProgressIndicator()
-            }
-        }
-
         is TournamentUiState.Success<*> -> {
 
             BackHandler {
@@ -105,48 +90,93 @@ fun TournamentView(
                             .clip(RoundedCornerShape(8.dp))
                     )
                 }
-                Card(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 8.dp
-                    ),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    )
-                ) {
-                    TournamentThumbnail(
-                        images = tournament.images,
-                        title = tournament.name,
-                        starAt = tournament.startAt,
-                        endAt = tournament.endAt,
-                        attenders = tournament.numAttendees,
-                        venueAddress = tournament.venueAddress,
-                        contact = {
-                            Row(Modifier.fillMaxWidth()) {
-                                if (tournament.primaryContactType == "discord") {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.discord),
-                                        contentDescription = null
-                                    )
-                                } else {
-                                    Icon(
-                                        imageVector = Icons.Default.Email,
-                                        contentDescription = null
-                                    )
-                                }
-                                Spacer(modifier = Modifier.size(4.dp))
-                                Text(
-                                    text = tournament.primaryContact,
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 2.dp),
-                                    style = MaterialTheme.typography.labelMedium,
+//                Card(
+//                    modifier = Modifier
+//                        .padding(vertical = 8.dp),
+//                    elevation = CardDefaults.cardElevation(
+//                        defaultElevation = 8.dp
+//                    ),
+//                    colors = CardDefaults.cardColors(
+//                        containerColor = MaterialTheme.colorScheme.background
+//                    )
+//                ) {
+                TournamentThumbnail(
+                    images = tournament.images,
+                    title = tournament.name,
+                    starAt = tournament.startAt,
+                    endAt = tournament.endAt,
+                    attenders = tournament.numAttendees,
+                    venueAddress = tournament.venueAddress,
+                    contact = {
+                        Row(Modifier.fillMaxWidth()) {
+                            if (tournament.primaryContactType == "discord") {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.discord),
+                                    contentDescription = null
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Default.Email,
+                                    contentDescription = null
                                 )
                             }
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Text(
+                                text = tournament.primaryContact,
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 2.dp),
+                                style = MaterialTheme.typography.labelMedium,
+                            )
                         }
+                    }
+                )
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(6.dp)) {
+
+                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
+                    Text(
+                        text = "Location ",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth()
                     )
+                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
+                    Text(
+                        text = "Contact Info ",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
+                    Text(
+                        text = "Admins: ",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
+                    Text(
+                        text = "Rules ",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Text(text = tournament.rules)
                 }
+                //}
+            }
+        }
+
+        is TournamentUiState.Error -> {
+            GenericBox {
+                Text(text = tournamentValue.message)
+            }
+
+        }
+
+        TournamentUiState.Loading -> {
+            GenericBox {
+                CircularProgressIndicator()
             }
         }
 
@@ -304,42 +334,4 @@ fun TournamentsThumbnail(
         null -> {}
     }
 
-}
-
-@Composable
-private fun MainDialogAlert(
-    showDialog: Boolean,
-    onDismissButton: () -> Unit,
-    onClickButton: () -> Unit,
-) {
-    GenericBox {
-        if (showDialog) {
-            AlertDialog(
-                onDismissRequest = { onDismissButton() },
-                title = {
-                    Text(
-                        text = stringResource(R.string.are_you_sure_exit),
-                        textAlign = TextAlign.Center
-                    )
-                },
-                confirmButton = {
-                    TextButton(onClick = { onClickButton() }) {
-                        Text(
-                            text = stringResource(R.string.exit),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-
-                },
-                dismissButton = {
-                    TextButton(onClick = { onDismissButton() }) {
-                        Text(
-                            text = stringResource(R.string.cancel),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-                }
-            )
-        }
-    }
 }
