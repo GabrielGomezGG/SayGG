@@ -25,6 +25,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -43,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
 import com.example.saygg.main.ui.MainDialogAlert
@@ -90,16 +93,6 @@ fun TournamentView(
                             .clip(RoundedCornerShape(8.dp))
                     )
                 }
-//                Card(
-//                    modifier = Modifier
-//                        .padding(vertical = 8.dp),
-//                    elevation = CardDefaults.cardElevation(
-//                        defaultElevation = 8.dp
-//                    ),
-//                    colors = CardDefaults.cardColors(
-//                        containerColor = MaterialTheme.colorScheme.background
-//                    )
-//                ) {
                 TournamentThumbnail(
                     images = tournament.images,
                     title = tournament.name,
@@ -109,17 +102,7 @@ fun TournamentView(
                     venueAddress = tournament.venueAddress,
                     contact = {
                         Row(Modifier.fillMaxWidth()) {
-                            if (tournament.primaryContactType == "discord") {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.discord),
-                                    contentDescription = null
-                                )
-                            } else {
-                                Icon(
-                                    imageVector = Icons.Default.Email,
-                                    contentDescription = null
-                                )
-                            }
+                            IconPrimaryContact(primaryContact = tournament.primaryContactType)
                             Spacer(modifier = Modifier.size(4.dp))
                             Text(
                                 text = tournament.primaryContact,
@@ -151,6 +134,9 @@ fun TournamentView(
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.fillMaxWidth()
                     )
+                    ContactInfo(
+                        primaryContact = tournament.primaryContactType
+                    )
 
                     //Admins
                     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
@@ -169,7 +155,6 @@ fun TournamentView(
                     )
                     Text(text = tournament.rules)
                 }
-                //}
             }
         }
 
@@ -340,4 +325,48 @@ fun TournamentsThumbnail(
         null -> {}
     }
 
+}
+
+@Composable
+fun IconPrimaryContact(
+    primaryContact : String,
+    modifier: Modifier = Modifier,
+    tint: Color = LocalContentColor.current,
+) {
+    when(primaryContact){
+        "discord" -> {
+            Icon(
+                painter = painterResource(id = R.drawable.discord),
+                contentDescription = null,
+                modifier = modifier,
+                tint = tint
+            )
+        }
+        "email" -> {
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = null,
+                modifier = modifier,
+                tint = tint
+            )
+        }
+    }
+}
+
+@Composable
+fun ContactInfo(
+    primaryContact : String,
+) {
+    Column {
+        IconPrimaryContact(
+            primaryContact = primaryContact,
+            modifier=Modifier.size(48.dp),
+            tint = Color(0xFF397ea8)
+        )
+        Text(
+            text = primaryContact,
+            color = Color(0xFF397ea8),
+            fontSize = 20.sp
+        )
+    }
 }
