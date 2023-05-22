@@ -5,4 +5,8 @@
     <string name="cancel">Cancel</string>
     <string name="tournaments">Tournaments</string>
     <string name="attendees">Attendees</string>
+    <string name="location">Location</string>
+    <string name="contact_info">Contact Info</string>
+    <string name="admins">Admins</string>
+    <string name="rules">Rules</string>
 </resources>

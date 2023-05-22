@@ -136,28 +136,34 @@ fun TournamentView(
                         .fillMaxSize()
                         .padding(6.dp)) {
 
+                    //Location
                     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
                     Text(
-                        text = "Location ",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
-                    Text(
-                        text = "Contact Info ",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
-                    Text(
-                        text = "Admins: ",
+                        text = stringResource(R.string.location),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.fillMaxWidth()
                     )
 
+                    //Contact info
                     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
                     Text(
-                        text = "Rules ",
+                        text = stringResource(R.string.contact_info),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    //Admins
+                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
+                    Text(
+                        text = stringResource(R.string.admins),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    //Rules
+                    Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
+                    Text(
+                        text = stringResource(R.string.rules),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.fillMaxWidth()
                     )
