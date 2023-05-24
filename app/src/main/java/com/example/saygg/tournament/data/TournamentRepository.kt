@@ -9,10 +9,14 @@ import com.example.saygg.tournament.ui.TournamentUiState
 import com.example.saygg.tournament.utils.toTournament
 import javax.inject.Inject
 
+interface ITournamentRepository{
+    suspend fun getTournaments(countryCode : String, perPage : Int): TournamentUiState
+    suspend fun getTournamentById(id : String): TournamentUiState
+}
 class TournamentRepository @Inject constructor(
     private val apolloClient: ApolloClient
-){
-    suspend fun getTournaments(countryCode : String, perPage : Int): TournamentUiState {
+) : ITournamentRepository{
+    override suspend fun getTournaments(countryCode : String, perPage : Int): TournamentUiState {
         return try {
             val tournamentsApi = apolloClient.query(TournamentsByCountryQuery(countryCode,perPage)).execute()
             val tournamentByCountries = tournamentsApi.data?.tournaments?.nodes?.map {
@@ -24,7 +28,7 @@ class TournamentRepository @Inject constructor(
         }
     }
 
-    suspend fun getTournamentById(id : String): TournamentUiState {
+    override suspend fun getTournamentById(id : String): TournamentUiState {
         return try{
             val tournamentApi = apolloClient.query(TournamentByIdQuery(id)).execute()
             val tournamentById = tournamentApi.data?.tournament?.toTournament()
