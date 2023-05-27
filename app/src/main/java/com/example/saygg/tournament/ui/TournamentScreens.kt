@@ -54,11 +54,11 @@ import com.example.saygg.tournament.data.model.Image
 import com.example.saygg.tournament.data.model.Tournament
 import com.example.saygg.tournament.utils.timeStampToDate
 import com.example.saygg.utils.GenericBox
+import com.example.saygg.utils.IconContact
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
@@ -112,7 +112,7 @@ fun TournamentView(
                         venueAddress = tournament.venueAddress,
                         contact = {
                             Row(Modifier.fillMaxWidth()) {
-                                IconPrimaryContact(primaryContact = tournament.primaryContactType)
+                                IconContact(typeContact = tournament.primaryContactType)
                                 Spacer(modifier = Modifier.size(4.dp))
                                 Text(
                                     text = tournament.primaryContact,
@@ -328,39 +328,12 @@ fun TournamentsThumbnail(
 }
 
 @Composable
-private fun IconPrimaryContact(
-    primaryContact: String,
-    modifier: Modifier = Modifier,
-    tint: Color = LocalContentColor.current,
-) {
-    when (primaryContact) {
-        "discord" -> {
-            Icon(
-                painter = painterResource(id = R.drawable.discord),
-                contentDescription = null,
-                modifier = modifier,
-                tint = tint
-            )
-        }
-
-        "email" -> {
-            Icon(
-                imageVector = Icons.Default.Email,
-                contentDescription = null,
-                modifier = modifier,
-                tint = tint
-            )
-        }
-    }
-}
-
-@Composable
 private fun ContactInfo(
     primaryContact: String,
 ) {
     Column {
-        IconPrimaryContact(
-            primaryContact = primaryContact,
+        IconContact(
+            typeContact = primaryContact,
             modifier = Modifier.size(48.dp),
             tint = Color(0xFF397ea8)
         )
