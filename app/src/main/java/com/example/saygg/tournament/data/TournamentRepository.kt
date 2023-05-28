@@ -6,6 +6,7 @@ import com.example.saygg.TournamentByIdQuery
 import com.example.saygg.TournamentsByCountryQuery
 import com.example.saygg.tournament.data.model.Tournament
 import com.example.saygg.tournament.ui.TournamentUiState
+import com.example.saygg.tournament.utils.toPlayer
 import com.example.saygg.tournament.utils.toTournament
 import javax.inject.Inject
 
@@ -32,7 +33,11 @@ class TournamentRepository @Inject constructor(
         return try{
             val tournamentApi = apolloClient.query(TournamentByIdQuery(id)).execute()
             val tournamentById = tournamentApi.data?.tournament?.toTournament()
-            TournamentUiState.Success(tournamentById ?: Tournament())
+            val players = tournamentApi.data?.tournament?.toPlayer()
+            TournamentUiState.Success(
+                tournamentById ?: Tournament(),
+                playerList = players ?: emptyList()
+            )
         }catch (e : ApolloException){
             return TournamentUiState.Error(e.message.toString())
         }

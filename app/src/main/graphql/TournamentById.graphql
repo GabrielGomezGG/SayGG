@@ -1,6 +1,6 @@
 query TournamentById(
     $tournamentId: ID!,
-#    $numAttendees : Int
+    #$numAttendees : Int
 ) {
     tournament(id: $tournamentId) {
         images {
@@ -18,17 +18,35 @@ query TournamentById(
         lat
         lng
         venueAddress
-        events {
-            startAt
-            name
-            videogame {
-                name
-                images {
-                    url
-                    type
+        participants(query : {page : 1, perPage : 499}){
+            nodes{
+                player{
+                    prefix
+                    gamerTag
+                    user{
+                        name
+                        authorizations{
+                            type
+                            externalUsername
+                        }
+                        images{
+                            url
+                        }
+                    }
                 }
             }
         }
+#        events {
+#            startAt
+#            name
+#            videogame {
+#                name
+#                images {
+#                    url
+#                    type
+#                }
+#            }
+#        }
 #        participants(query: {perPage: $numAttendees}) {
 #            nodes {
 #                id

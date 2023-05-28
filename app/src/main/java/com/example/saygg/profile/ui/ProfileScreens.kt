@@ -32,7 +32,7 @@ fun ProfileThumbnail(
     prefix: String?,
     gamerTag: String,
     name: String?,
-    authorizations: List<SocialNetwork>,
+    authorizations: List<SocialNetwork>?,
 ) {
     Row(modifier = modifier) {
         AsyncImage(
@@ -72,9 +72,11 @@ fun ProfileThumbnail(
             }
             //Social Network
             Row(Modifier.fillMaxWidth().padding(top = 2.dp)) {
-                authorizations.forEach {
-                    IconContact(typeContact = it.type, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.size(8.dp))
+                if(!authorizations.isNullOrEmpty()) {
+                    authorizations.forEach {
+                        IconContact(typeContact = it.type!!, modifier = Modifier.size(16.dp))
+                        Spacer(modifier = Modifier.size(8.dp))
+                    }
                 }
             }
         }
@@ -107,9 +109,9 @@ fun ProfileThumbnailPrev() {
                     image = "https://images.start.gg/images/user/1637510/image-f4396f966669a24d781994992a85d531.jpg?ehk=iple%2BWLAZMAb8qO7MCvJRvhWLkExUkriT9KLk7D9iqQ%3D&ehkOptimized=Snd5SX4Pc4Bl03nxCn97syAOLz2532spdz3VEPokVic%3D",
                     prefix = "VAL |",
                     gamerTag = "ComanDanteTy",
-                    name = "Smite Smite",
+                    name = "",
                     modifier = Modifier.weight(1f),
-                    authorizations = authorizations
+                    authorizations = null
                 )
             }
         }
