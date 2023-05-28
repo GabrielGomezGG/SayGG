@@ -13,4 +13,5 @@
     <string name="tournament_info">Información del torneo</string>
     <string name="owner">Creador</string>
     <string name="attenders">Participantes</string>
+    <string name="view_all_attendees">Ver los %1$d Participantes</string>
 </resources>

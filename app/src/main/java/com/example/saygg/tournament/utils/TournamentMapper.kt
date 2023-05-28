@@ -53,7 +53,7 @@ fun TournamentByIdQuery.Tournament.toPlayer(): List<Player> {
             prefix = it?.player?.prefix,
             image = it?.player?.user?.images?.map { img ->
                 Image(
-                    type = "profile",
+                    type = img?.type ?: "",
                     url = img?.url ?: ""
                 )
             },

@@ -1,13 +1,10 @@
 package com.example.saygg.tournament.ui
 
 import android.app.Activity
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +29,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,6 +45,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
@@ -147,9 +146,9 @@ fun TournamentView(
                         //Attendees
                         MySection(stringResource(R.string.attenders))
                         AttendeesTournamentView(
+
                             players = tournament.players,
                             numAttendees = tournament.numAttendees,
-                            columnScope = this
                         )
 
                         //Contact info
@@ -394,23 +393,30 @@ private fun MySection(title: String) {
 fun AttendeesTournamentView(
     players: List<Player>,
     numAttendees: Int,
-    columnScope: ColumnScope,
     modifier: Modifier = Modifier,
 ) {
-
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(140.dp),
-        userScrollEnabled = false,
-        modifier = modifier.height(350.dp),
-        contentPadding = PaddingValues(4.dp)
-    ) {
-        items(if(numAttendees >= 12) 12 else numAttendees){
-            ProfileThumbnail(
-                image = players[it].image ?: emptyList(),
-                prefix = players[it].prefix,
-                gamerTag = players[it].gamerTag ?: "",
-                name = players[it].name ?: "",
-                socialNetworks = players[it].socialNetworks ?: emptyList()
+    Card {
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(140.dp),
+            userScrollEnabled = false,
+            modifier = modifier.height(400.dp),
+        ) {
+            items(if(numAttendees >= 12) 12 else numAttendees){
+                ProfileThumbnail(
+                    image = players[it].getProfileImage(),
+                    prefix = players[it].prefix,
+                    gamerTag = players[it].gamerTag ?: "",
+                    name = players[it].name ?: "",
+                    socialNetworks = players[it].socialNetworks ?: emptyList(),
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+        }
+        TextButton(onClick = { /*TODO*/ }) {
+            Text(
+                text = stringResource(R.string.view_all_attendees, numAttendees),
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                textAlign = TextAlign.Center,
             )
         }
     }
