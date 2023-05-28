@@ -34,9 +34,9 @@ class TournamentRepository @Inject constructor(
             val tournamentApi = apolloClient.query(TournamentByIdQuery(id)).execute()
             val tournamentById = tournamentApi.data?.tournament?.toTournament()
             val players = tournamentApi.data?.tournament?.toPlayer()
+            val tournamentWithPlayer = tournamentById?.copy(players = players ?: emptyList())
             TournamentUiState.Success(
-                tournamentById ?: Tournament(),
-                playerList = players ?: emptyList()
+                tournamentWithPlayer ?: Tournament()
             )
         }catch (e : ApolloException){
             return TournamentUiState.Error(e.message.toString())

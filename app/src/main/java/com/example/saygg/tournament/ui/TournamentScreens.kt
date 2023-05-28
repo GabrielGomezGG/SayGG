@@ -1,10 +1,13 @@
 package com.example.saygg.tournament.ui
 
 import android.app.Activity
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,11 +17,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
@@ -26,7 +30,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,7 +45,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -50,6 +52,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
 import com.example.saygg.main.ui.MainDialogAlert
+import com.example.saygg.profile.data.Player
+import com.example.saygg.profile.ui.ProfileThumbnail
 import com.example.saygg.tournament.data.model.Image
 import com.example.saygg.tournament.data.model.Tournament
 import com.example.saygg.tournament.utils.timeStampToDate
@@ -85,7 +89,6 @@ fun TournamentView(
                     imageBanner = it.url
                 }
             }
-
             LazyColumn(modifier = modifier) {
                 item {
                     if (imageBanner.isNotEmpty()) {
@@ -130,10 +133,10 @@ fun TournamentView(
                             .padding(6.dp)
                     ) {
 
-                        MySection(stringRes = R.string.tournament_info)
+                        MySection(stringResource(id = R.string.tournament_info))
 
                         //Location
-                        MySection(R.string.location)
+                        MySection(stringResource(R.string.location))
                         LocationTournament(
                             lat = tournament.latitude,
                             lng = tournament.longitude,
@@ -141,17 +144,25 @@ fun TournamentView(
                             tournamentTitle = tournament.name
                         )
 
+                        //Attendees
+                        MySection(stringResource(R.string.attenders))
+                        AttendeesTournamentView(
+                            players = tournament.players,
+                            numAttendees = tournament.numAttendees,
+                            columnScope = this
+                        )
+
                         //Contact info
-                        MySection(stringRes = R.string.contact_info)
+                        MySection(stringResource(R.string.contact_info))
                         ContactInfo(
                             primaryContact = tournament.primaryContactType
                         )
 
-                        //Admins
-                        MySection(stringRes = R.string.admins)
+                        //Owner
+                        MySection(stringResource(R.string.owner))
 
                         //Rules
-                        MySection(stringRes = R.string.rules)
+                        MySection(stringResource(R.string.rules))
                         Text(text = tournament.rules)
                     }
                 }
@@ -162,7 +173,6 @@ fun TournamentView(
             GenericBox {
                 Text(text = tournamentValue.message)
             }
-
         }
 
         TournamentUiState.Loading -> {
@@ -350,8 +360,8 @@ private fun LocationTournament(
     lat: Double,
     lng: Double,
     modifier: Modifier = Modifier,
-    title : String = "",
-    tournamentTitle : String = ""
+    title: String = "",
+    tournamentTitle: String = ""
 ) {
     val marker = LatLng(lat, lng)
     val cameraPositionState = rememberCameraPositionState {
@@ -371,11 +381,37 @@ private fun LocationTournament(
 }
 
 @Composable
-private fun MySection(stringRes: Int) {
+private fun MySection(title: String) {
     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 6.dp))
     Text(
-        text = stringResource(stringRes),
+        text = title,
         style = MaterialTheme.typography.titleMedium,
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Composable
+fun AttendeesTournamentView(
+    players: List<Player>,
+    numAttendees: Int,
+    columnScope: ColumnScope,
+    modifier: Modifier = Modifier,
+) {
+
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(140.dp),
+        userScrollEnabled = false,
+        modifier = modifier.height(350.dp),
+        contentPadding = PaddingValues(4.dp)
+    ) {
+        items(if(numAttendees >= 12) 12 else numAttendees){
+            ProfileThumbnail(
+                image = players[it].image ?: emptyList(),
+                prefix = players[it].prefix,
+                gamerTag = players[it].gamerTag ?: "",
+                name = players[it].name ?: "",
+                socialNetworks = players[it].socialNetworks ?: emptyList()
+            )
+        }
+    }
 }

@@ -51,7 +51,12 @@ fun TournamentByIdQuery.Tournament.toPlayer(): List<Player> {
             gamerTag = it?.player?.gamerTag,
             name = it?.player?.user?.name,
             prefix = it?.player?.prefix,
-            image = it?.player?.user?.images?.first()?.url,
+            image = it?.player?.user?.images?.map { img ->
+                Image(
+                    type = "profile",
+                    url = img?.url ?: ""
+                )
+            },
             socialNetworks = it?.player?.user?.authorizations?.map { sn ->
                 SocialNetwork(
                     type = sn?.type?.toString(),

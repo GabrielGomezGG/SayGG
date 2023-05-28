@@ -1,5 +1,7 @@
 package com.example.saygg.tournament.data.model
 
+import com.example.saygg.profile.data.Player
+
 data class Tournament(
     val id : String = "",
     val images: List<Image> = emptyList(),
@@ -13,4 +15,5 @@ data class Tournament(
     val rules : String = "",
     val latitude : Double = 0.0,
     val longitude : Double = 0.0,
+    val players : List<Player> = emptyList(),
 )
