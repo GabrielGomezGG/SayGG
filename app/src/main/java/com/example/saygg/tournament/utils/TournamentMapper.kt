@@ -4,8 +4,10 @@ import com.example.saygg.TournamentByIdQuery
 import com.example.saygg.TournamentsByCountryQuery
 import com.example.saygg.profile.data.Player
 import com.example.saygg.profile.data.SocialNetwork
+import com.example.saygg.tournament.data.model.Event
 import com.example.saygg.tournament.data.model.Image
 import com.example.saygg.tournament.data.model.Tournament
+import com.example.saygg.tournament.data.model.VideoGame
 
 fun TournamentsByCountryQuery.Node.toTournament(): Tournament {
     return Tournament(
@@ -58,12 +60,27 @@ fun TournamentByIdQuery.Tournament.toTournament(): Tournament {
                     externalUsername = it?.externalUsername.toString()
                 )
             }
-        )
+        ),
+        events = events!!.map {
+            Event(
+                name = it?.name ?: "",
+                startAt = (it?.startAt) as Int,
+                videoGame = VideoGame(
+                    name = it.videogame?.name ?: "",
+                    images = it.videogame?.images!!.map { img ->
+                        Image(
+                            type = img?.type ?: "",
+                            url = img?.url ?: ""
+                        )
+                    }
+                )
+            )
+        }
     )
 }
 
 fun TournamentByIdQuery.Tournament.toPlayer(): List<Player> {
-    val playerList = participants?.nodes?.map {
+    return participants?.nodes?.map {
         Player(
             gamerTag = it?.player?.gamerTag,
             name = it?.player?.user?.name,
@@ -81,6 +98,5 @@ fun TournamentByIdQuery.Tournament.toPlayer(): List<Player> {
                 )
             }
         )
-    }
-    return playerList ?: emptyList()
+    } ?: emptyList()
 }
