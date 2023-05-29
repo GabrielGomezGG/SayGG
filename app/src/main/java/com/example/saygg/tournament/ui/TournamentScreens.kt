@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -83,7 +84,11 @@ fun TournamentView(
 
             val tournament = tournamentValue.values as Tournament
 
-            LazyColumn(modifier = modifier) {
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(start = 6.dp, end = 6.dp, bottom = 6.dp)
+            ) {
                 item {
                     if (getImageUrlByType(tournament.images, "banner").isNotEmpty()) {
                         SubcomposeAsyncImage(
@@ -121,12 +126,7 @@ fun TournamentView(
                             }
                         }
                     )
-                    Column(
-                        Modifier
-                            .fillMaxSize()
-                            .padding(6.dp)
-                    ) {
-
+                        //Tournament Info
                         MySection(stringResource(id = R.string.tournament_info))
 
                         //Location
@@ -158,7 +158,6 @@ fun TournamentView(
                         //Rules
                         MySection(stringResource(R.string.rules))
                         Text(text = tournament.rules)
-                    }
                 }
             }
         }
@@ -301,7 +300,7 @@ fun TournamentsThumbnail(
             )
 
             LazyColumn(modifier = modifier) {
-                items(tournamentList) {
+                items(tournamentList, contentType = { Tournament::class }) {
                     Card(
                         modifier = Modifier
                             .padding(8.dp)
@@ -335,7 +334,9 @@ private fun ContactInfo(
     Column {
         IconContact(
             typeContact = primaryContact,
-            modifier = Modifier.size(48.dp).align(CenterHorizontally),
+            modifier = Modifier
+                .size(48.dp)
+                .align(CenterHorizontally),
             tint = Color(0xFF397ea8)
         )
         Text(
@@ -377,7 +378,7 @@ private fun MySection(title: String) {
     Text(
         text = title,
         style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
     )
 }
 
@@ -391,9 +392,9 @@ fun AttendeesTournamentView(
         LazyVerticalGrid(
             columns = GridCells.Adaptive(140.dp),
             userScrollEnabled = false,
-            modifier = modifier.height(430.dp),
+            modifier = modifier.heightIn(max = 600.dp)
         ) {
-            items(if(numAttendees >= 12) 12 else numAttendees){
+            items(if(numAttendees >= 12) 12 else numAttendees, contentType = { Player::class }){
                 ProfileThumbnail(
                     image = getImageUrlByType(players[it].image,"profile"),
                     prefix = players[it].prefix,
