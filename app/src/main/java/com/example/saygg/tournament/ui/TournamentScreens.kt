@@ -146,7 +146,6 @@ fun TournamentView(
                         //Attendees
                         MySection(stringResource(R.string.attenders))
                         AttendeesTournamentView(
-
                             players = tournament.players,
                             numAttendees = tournament.numAttendees,
                         )
@@ -159,6 +158,7 @@ fun TournamentView(
 
                         //Owner
                         MySection(stringResource(R.string.owner))
+                        OwnerTournamentView(owner = tournament.owner)
 
                         //Rules
                         MySection(stringResource(R.string.rules))
@@ -407,7 +407,7 @@ fun AttendeesTournamentView(
                     prefix = players[it].prefix,
                     gamerTag = players[it].gamerTag ?: "",
                     name = players[it].name ?: "",
-                    socialNetworks = players[it].socialNetworks ?: emptyList(),
+                    socialNetworks = players[it].socialNetworks,
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -415,9 +415,27 @@ fun AttendeesTournamentView(
         TextButton(onClick = { /*TODO*/ }) {
             Text(
                 text = stringResource(R.string.view_all_attendees, numAttendees),
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
                 textAlign = TextAlign.Center,
             )
         }
+    }
+}
+
+@Composable
+fun OwnerTournamentView(
+    owner : Player
+) {
+    Card(modifier = Modifier.fillMaxWidth()){
+        ProfileThumbnail(
+            image = owner.getProfileImage(),
+            prefix = owner.prefix,
+            gamerTag = owner.gamerTag ?: "",
+            name = owner.name ?: "",
+            socialNetworks = owner.socialNetworks,
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }

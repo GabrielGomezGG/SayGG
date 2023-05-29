@@ -37,6 +37,21 @@ query TournamentById(
                 }
             }
         }
+        owner {
+            player {
+                prefix
+                gamerTag
+            }
+            name
+            authorizations {
+                type
+                externalUsername
+            }
+            images {
+                type
+                url
+            }
+        }
 #        events {
 #            startAt
 #            name

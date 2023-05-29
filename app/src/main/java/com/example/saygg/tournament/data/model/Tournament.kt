@@ -16,4 +16,11 @@ data class Tournament(
     val latitude : Double = 0.0,
     val longitude : Double = 0.0,
     val players : List<Player> = emptyList(),
+    val owner : Player = Player(
+        gamerTag = "",
+        name = "",
+        prefix = "",
+        image = emptyList(),
+        socialNetworks = emptyList()
+    ),
 )

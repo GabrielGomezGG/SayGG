@@ -105,27 +105,43 @@ fun ProfileThumbnailPrev() {
     )
     SayGGTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)) {
-                ProfileThumbnail(
-                    image = "https://images.start.gg/images/user/1637510/image-f4396f966669a24d781994992a85d531.jpg?ehk=iple%2BWLAZMAb8qO7MCvJRvhWLkExUkriT9KLk7D9iqQ%3D&ehkOptimized=Snd5SX4Pc4Bl03nxCn97syAOLz2532spdz3VEPokVic%3D",
-                    prefix = "",
-                    gamerTag = "Saygg",
-                    name = "",
-                    modifier = Modifier.weight(1f),
-                    socialNetworks = authorizations
-                )
-                ProfileThumbnail(
-                    image = "https://images.start.gg/images/user/661021/image-dba7b4317b120c89c3aad383aef83b43.jpg?ehk=l%2FTHoZ6sYd0fsN6gM1x1b1W20qpSyPKx0m7%2BISYolN0%3D&ehkOptimized=UxEWTfxw8j1dypn0FoUpVuCBM9L6YwnEXYsAQnFqiP0%3D",
-                    prefix = "VAL |",
-                    gamerTag = "ComanDanteTy",
-                    name = "",
-                    modifier = Modifier.weight(1f),
-                    socialNetworks = null
-                )
-            }
+//            Row(
+//                Modifier
+//                    .fillMaxWidth()
+//                    .padding(8.dp)) {
+//                ProfileThumbnail(
+//                    image = "https://images.start.gg/images/user/1637510/image-f4396f966669a24d781994992a85d531.jpg?ehk=iple%2BWLAZMAb8qO7MCvJRvhWLkExUkriT9KLk7D9iqQ%3D&ehkOptimized=Snd5SX4Pc4Bl03nxCn97syAOLz2532spdz3VEPokVic%3D",
+//                    prefix = "",
+//                    gamerTag = "Saygg",
+//                    name = "",
+//                    modifier = Modifier.weight(1f),
+//                    socialNetworks = authorizations
+//                )
+//                ProfileThumbnail(
+//                    image = "https://images.start.gg/images/user/661021/image-dba7b4317b120c89c3aad383aef83b43.jpg?ehk=l%2FTHoZ6sYd0fsN6gM1x1b1W20qpSyPKx0m7%2BISYolN0%3D&ehkOptimized=UxEWTfxw8j1dypn0FoUpVuCBM9L6YwnEXYsAQnFqiP0%3D",
+//                    prefix = "VAL |",
+//                    gamerTag = "ComanDanteTy",
+//                    name = "",
+//                    modifier = Modifier.weight(1f),
+//                    socialNetworks = null
+//                )
+//            }
+//            val numAttendees = 12
+//            LazyVerticalGrid(
+//                columns = GridCells.Adaptive(140.dp),
+//                userScrollEnabled = false,
+//                modifier = Modifier.height(400.dp),
+//            ) {
+//                items(if(numAttendees >= 12) 12 else numAttendees){
+//                    ProfileThumbnail(
+//                        image = "https://images.start.gg/images/user/661021/image-dba7b4317b120c89c3aad383aef83b43.jpg?ehk=l%2FTHoZ6sYd0fsN6gM1x1b1W20qpSyPKx0m7%2BISYolN0%3D&ehkOptimized=UxEWTfxw8j1dypn0FoUpVuCBM9L6YwnEXYsAQnFqiP0%3D",
+//                        prefix = "VAL |",
+//                        gamerTag = "ComanDanteTy",
+//                        name = "",
+//                        socialNetworks = authorizations
+//                    )
+//                }
+//            }
         }
     }
 }

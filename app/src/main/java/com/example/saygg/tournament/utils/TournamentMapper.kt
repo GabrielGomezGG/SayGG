@@ -41,7 +41,24 @@ fun TournamentByIdQuery.Tournament.toTournament(): Tournament {
         primaryContactType = primaryContactType ?: "",
         rules = rules ?: "",
         latitude = lat ?: 0.0,
-        longitude = lng ?: 0.0
+        longitude = lng ?: 0.0,
+        owner = Player(
+            gamerTag = owner?.player?.gamerTag,
+            name = owner?.name,
+            prefix = owner?.player?.prefix,
+            image = owner?.images?.map {
+                Image(
+                    type = it?.type ?: "",
+                    url = it?.url ?: ""
+                )
+            },
+            socialNetworks = owner?.authorizations?.map {
+                SocialNetwork(
+                    type = it?.type?.toString(),
+                    externalUsername = it?.externalUsername.toString()
+                )
+            }
+        )
     )
 }
 
