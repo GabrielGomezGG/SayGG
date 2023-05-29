@@ -23,4 +23,22 @@ data class Tournament(
         image = emptyList(),
         socialNetworks = emptyList()
     ),
-)
+){
+    fun getProfileImage(): String {
+        images.map {
+            if (it.type == "profile") {
+                return it.url
+            }
+        }
+        return ""
+    }
+
+    fun getBannerImage() : String{
+        images.map {
+            if (it.type == "banner") {
+                return it.url
+            }
+        }
+        return ""
+    }
+}

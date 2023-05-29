@@ -82,18 +82,11 @@ fun TournamentView(
 
             val tournament = tournamentValue.values as Tournament
 
-            var imageBanner = ""
-
-            tournament.images.forEach {
-                if (it.type == "banner") {
-                    imageBanner = it.url
-                }
-            }
             LazyColumn(modifier = modifier) {
                 item {
-                    if (imageBanner.isNotEmpty()) {
+                    if (tournament.getBannerImage().isNotEmpty()) {
                         SubcomposeAsyncImage(
-                            model = imageBanner,
+                            model = tournament.getBannerImage(),
                             loading = {
                                 GenericBox {
                                     CircularProgressIndicator()
@@ -107,7 +100,7 @@ fun TournamentView(
                         )
                     }
                     TournamentThumbnail(
-                        images = tournament.images,
+                        images = tournament.getProfileImage(),
                         title = tournament.name,
                         starAt = tournament.startAt,
                         endAt = tournament.endAt,
@@ -189,7 +182,7 @@ fun TournamentView(
 
 @Composable
 fun TournamentThumbnail(
-    images: List<Image>,
+    images : String,
     title: String,
     starAt: Int,
     endAt: Int,
@@ -198,9 +191,6 @@ fun TournamentThumbnail(
     contact: @Composable () -> Unit = {}
 ) {
     val date = timeStampToDate(starAt) + " - " + timeStampToDate(endAt)
-    var image = ""
-
-    images.map { if (it.type == "profile") image = it.url }
 
     Column(
         modifier = Modifier
@@ -209,7 +199,7 @@ fun TournamentThumbnail(
     ) {
         Row(Modifier) {
             SubcomposeAsyncImage(
-                model = image.ifEmpty { R.drawable.tournament },
+                model = images.ifEmpty { R.drawable.tournament },
                 loading = {
                     GenericBox {
                         CircularProgressIndicator()
@@ -320,7 +310,7 @@ fun TournamentsThumbnail(
                         )
                     ) {
                         TournamentThumbnail(
-                            images = it.images,
+                            images = it.getProfileImage(),
                             endAt = it.endAt,
                             starAt = it.startAt,
                             title = it.name,
