@@ -80,7 +80,7 @@ fun TournamentMainScreen(
 fun TournamentBottomBar() {
     BottomAppBar() {
         NavigationBarItem(
-            selected = false,
+            selected = true,
             onClick = { /*TODO*/ },
             icon = { Icon(imageVector = Icons.Default.Home, contentDescription = null) }
         )

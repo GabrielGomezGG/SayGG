@@ -28,7 +28,7 @@ val Typography = Typography(
     ),
     labelSmall = TextStyle(
         textAlign = TextAlign.Start,
-        fontSize = 12.sp,
+        fontSize = 14.sp,
     ),
     /* Other default text styles to override
     titleLarge = TextStyle(

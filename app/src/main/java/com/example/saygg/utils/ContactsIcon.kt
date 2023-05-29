@@ -17,7 +17,7 @@ fun IconContact(
     modifier: Modifier = Modifier,
     tint: Color = LocalContentColor.current,
 ) {
-    when (typeContact) {
+    when (typeContact.lowercase()) {
         "discord" -> {
             Icon(
                 painter = painterResource(id = R.drawable.discord),

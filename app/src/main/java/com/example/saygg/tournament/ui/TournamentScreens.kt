@@ -36,6 +36,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -343,7 +344,7 @@ private fun ContactInfo(
     Column {
         IconContact(
             typeContact = primaryContact,
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(48.dp).align(CenterHorizontally),
             tint = Color(0xFF397ea8)
         )
         Text(
@@ -399,7 +400,7 @@ fun AttendeesTournamentView(
         LazyVerticalGrid(
             columns = GridCells.Adaptive(140.dp),
             userScrollEnabled = false,
-            modifier = modifier.height(400.dp),
+            modifier = modifier.height(430.dp),
         ) {
             items(if(numAttendees >= 12) 12 else numAttendees){
                 ProfileThumbnail(
