@@ -59,6 +59,7 @@ import com.example.saygg.tournament.data.model.Tournament
 import com.example.saygg.tournament.utils.timeStampToDate
 import com.example.saygg.utils.GenericBox
 import com.example.saygg.utils.IconContact
+import com.example.saygg.utils.getImageUrlByType
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -84,9 +85,9 @@ fun TournamentView(
 
             LazyColumn(modifier = modifier) {
                 item {
-                    if (tournament.getBannerImage().isNotEmpty()) {
+                    if (getImageUrlByType(tournament.images, "banner").isNotEmpty()) {
                         SubcomposeAsyncImage(
-                            model = tournament.getBannerImage(),
+                            model = getImageUrlByType(tournament.images, "banner"),
                             loading = {
                                 GenericBox {
                                     CircularProgressIndicator()
@@ -100,7 +101,7 @@ fun TournamentView(
                         )
                     }
                     TournamentThumbnail(
-                        images = tournament.getProfileImage(),
+                        images = getImageUrlByType(tournament.images, "profile"),
                         title = tournament.name,
                         starAt = tournament.startAt,
                         endAt = tournament.endAt,
@@ -310,7 +311,7 @@ fun TournamentsThumbnail(
                         )
                     ) {
                         TournamentThumbnail(
-                            images = it.getProfileImage(),
+                            images = getImageUrlByType(it.images, "profile"),
                             endAt = it.endAt,
                             starAt = it.startAt,
                             title = it.name,
@@ -394,7 +395,7 @@ fun AttendeesTournamentView(
         ) {
             items(if(numAttendees >= 12) 12 else numAttendees){
                 ProfileThumbnail(
-                    image = players[it].getProfileImage(),
+                    image = getImageUrlByType(players[it].image,"profile"),
                     prefix = players[it].prefix,
                     gamerTag = players[it].gamerTag ?: "",
                     name = players[it].name ?: "",
@@ -421,7 +422,7 @@ fun OwnerTournamentView(
 ) {
     Card(modifier = Modifier.fillMaxWidth()){
         ProfileThumbnail(
-            image = owner.getProfileImage(),
+            image = getImageUrlByType(owner.image,"profile"),
             prefix = owner.prefix,
             gamerTag = owner.gamerTag ?: "",
             name = owner.name ?: "",

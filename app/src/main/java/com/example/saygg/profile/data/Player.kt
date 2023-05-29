@@ -8,22 +8,4 @@ data class Player(
     val prefix: String?,
     val image: List<Image>?,
     val socialNetworks: List<SocialNetwork>?,
-) {
-    fun getProfileImage(): String {
-        image?.map {
-            if (it.type == "profile") {
-                return it.url
-            }
-        }
-        return ""
-    }
-
-    fun getBannerImage() : String{
-        image?.map {
-            if (it.type == "banner") {
-                return it.url
-            }
-        }
-        return ""
-    }
-}
+)
