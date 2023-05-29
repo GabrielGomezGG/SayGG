@@ -1,5 +1,6 @@
 package com.example.saygg.profile.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,7 +37,7 @@ fun ProfileThumbnail(
     socialNetworks: List<SocialNetwork>?,
 ) {
 
-    Row(modifier = modifier) {
+    Row(modifier = modifier.clickable {  }) {
         AsyncImage(
             model = image.ifEmpty { R.drawable.generic_user_icon },
             contentDescription = "Profile Image",
