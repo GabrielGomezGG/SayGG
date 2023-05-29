@@ -52,35 +52,16 @@ query TournamentById(
                 url
             }
         }
-#        events {
-#            startAt
-#            name
-#            videogame {
-#                name
-#                images {
-#                    url
-#                    type
-#                }
-#            }
-#        }
-#        participants(query: {perPage: $numAttendees}) {
-#            nodes {
-#                id
-#                prefix
-#                gamerTag
-#                player {
-#                    id
-#                    prefix
-#                    gamerTag
-#                    user {
-#                        id
-#                        images {
-#                            url
-#                            type
-#                        }
-#                    }
-#                }
-#            }
-#        }
+        events {
+            startAt
+            name
+            videogame {
+                name
+                images {
+                    url
+                    type
+                }
+            }
+        }
     }
 }

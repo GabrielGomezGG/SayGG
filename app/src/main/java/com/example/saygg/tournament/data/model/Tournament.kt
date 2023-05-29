@@ -23,6 +23,7 @@ data class Tournament(
         image = emptyList(),
         socialNetworks = emptyList()
     ),
+    val events : List<Event> = emptyList(),
 ){
     fun getProfileImage(): String {
         images.map {
