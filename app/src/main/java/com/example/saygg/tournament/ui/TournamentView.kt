@@ -1,12 +1,14 @@
 package com.example.saygg.tournament.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.example.saygg.R
+import com.example.saygg.events.data.Event
+import com.example.saygg.events.ui.EventThumbnail
 import com.example.saygg.profile.data.Player
 import com.example.saygg.profile.ui.ProfileThumbnail
 import com.example.saygg.tournament.data.model.Tournament
@@ -117,6 +121,7 @@ fun TournamentView(
 
                         //Event
                         MySection(stringResource(R.string.events))
+                        EventTournamentView(tournament.events)
 
                         //Attendees
                         MySection(stringResource(R.string.attenders))
@@ -197,6 +202,32 @@ private fun LocationTournament(
 }
 
 @Composable
+private fun EventTournamentView(
+    events : List<Event>
+) {
+    repeat(if(events.size > 4) 5 else events.size){
+        EventThumbnail(
+            gameImage = getImageUrlByType(events[it].videoGame.images, "primary"),
+            startAt = events[it].startAt,
+            eventName = events[it].name,
+            gameName = events[it].videoGame.name,
+            modifier = Modifier.padding(4.dp)
+        )
+    }
+    TextButton(
+        onClick = { /*TODO*/ }
+    ) {
+        Text(
+            text = stringResource(R.string.view_all_events),
+            modifier = Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleMedium
+        )
+    }
+}
+
+@Composable
 private fun AttendeesTournamentView(
     players: List<Player>,
     numAttendees: Int,
@@ -206,11 +237,11 @@ private fun AttendeesTournamentView(
         LazyVerticalGrid(
             columns = GridCells.Adaptive(140.dp),
             userScrollEnabled = false,
-            modifier = modifier.height(430.dp),
+            modifier = modifier.heightIn(max = 700.dp),
         ) {
-            items(if(numAttendees >= 12) 12 else numAttendees){
+            items(if (numAttendees >= 12) 12 else numAttendees) {
                 ProfileThumbnail(
-                    image = getImageUrlByType(players[it].image,"profile"),
+                    image = getImageUrlByType(players[it].image, "profile"),
                     prefix = players[it].prefix,
                     gamerTag = players[it].gamerTag ?: "",
                     name = players[it].name ?: "",
@@ -233,11 +264,11 @@ private fun AttendeesTournamentView(
 
 @Composable
 private fun OwnerTournamentView(
-    owner : Player
+    owner: Player
 ) {
-    Card(modifier = Modifier.fillMaxWidth()){
+    Card(modifier = Modifier.fillMaxWidth()) {
         ProfileThumbnail(
-            image = getImageUrlByType(owner.image,"profile"),
+            image = getImageUrlByType(owner.image, "profile"),
             prefix = owner.prefix,
             gamerTag = owner.gamerTag ?: "",
             name = owner.name ?: "",
@@ -254,7 +285,9 @@ private fun ContactInfo(
     Column {
         IconContact(
             typeContact = primaryContact,
-            modifier = Modifier.size(48.dp).align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .size(48.dp)
+                .align(Alignment.CenterHorizontally),
             tint = Color(0xFF397ea8)
         )
         Text(
