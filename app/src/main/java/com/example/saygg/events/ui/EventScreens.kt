@@ -1,16 +1,11 @@
 package com.example.saygg.events.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -19,17 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.saygg.R
 import com.example.saygg.tournament.utils.timeStampToDate
-import com.example.saygg.ui.theme.SayGGTheme
-import java.sql.Timestamp
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.util.Date
 
 @Composable
 fun EventThumbnail(
@@ -75,19 +63,19 @@ fun EventThumbnail(
     }
 }
 
-@Preview
-@Composable
-fun EventThumbnailPrev() {
-    SayGGTheme() {
-        Surface(modifier = Modifier, color = MaterialTheme.colorScheme.background) {
-            Column {
-                EventThumbnail(
-                    gameImage ="https://images.start.gg/images/videogame/36963/image-bf412b4ff869243300ac5d7e34f5769a.jpg?ehk=uKpe7dw6hwZs9gXLgNLurfL4AnOvo0%2FJPahWYajut64%3D&ehkOptimized=JrspjwheDHPvnihbMzwKlgDwjco%2FJ8DRdsHB1pG9FmI%3D" ,
-                    startAt = 1686970800,
-                    eventName = "Dark Winter #KOFXV",
-                    gameName = "The King of Fighters XV"
-                )
-            }
-        }
-    }
-}
+//@Preview
+//@Composable
+//fun EventThumbnailPrev() {
+//    SayGGTheme() {
+//        Surface(modifier = Modifier, color = MaterialTheme.colorScheme.background) {
+//            Column {
+//                EventThumbnail(
+//                    gameImage ="https://images.start.gg/images/videogame/36963/image-bf412b4ff869243300ac5d7e34f5769a.jpg?ehk=uKpe7dw6hwZs9gXLgNLurfL4AnOvo0%2FJPahWYajut64%3D&ehkOptimized=JrspjwheDHPvnihbMzwKlgDwjco%2FJ8DRdsHB1pG9FmI%3D" ,
+//                    startAt = 1686970800,
+//                    eventName = "Dark Winter #KOFXV",
+//                    gameName = "The King of Fighters XV"
+//                )
+//            }
+//        }
+//    }
+//}

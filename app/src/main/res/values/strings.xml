@@ -14,4 +14,5 @@
     <string name="attenders">Attenders</string>
     <string name="view_all_attendees">View %1$d All Attendees</string>
     <string name="view_event">View Event</string>
+    <string name="events">Events</string>
 </resources>
