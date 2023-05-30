@@ -14,4 +14,5 @@
     <string name="owner">Creador</string>
     <string name="attenders">Participantes</string>
     <string name="view_all_attendees">Ver los %1$d Participantes</string>
+    <string name="view_event">Ver Evento</string>
 </resources>
