@@ -11,10 +11,10 @@ class MainViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val _title = MutableLiveData<String>();
+    private val _title = MutableLiveData<String>()
     val title: LiveData<String> = _title
 
-    private val _imageTitle = MutableLiveData<String>();
+    private val _imageTitle = MutableLiveData<String>()
     val imageTitle: LiveData<String> = _imageTitle
 
     fun setTitle(title : String){
