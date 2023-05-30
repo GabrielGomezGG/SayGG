@@ -4,10 +4,10 @@ import com.example.saygg.TournamentByIdQuery
 import com.example.saygg.TournamentsByCountryQuery
 import com.example.saygg.profile.data.Player
 import com.example.saygg.profile.data.SocialNetwork
-import com.example.saygg.tournament.data.model.Event
+import com.example.saygg.events.data.Event
 import com.example.saygg.tournament.data.model.Image
 import com.example.saygg.tournament.data.model.Tournament
-import com.example.saygg.tournament.data.model.VideoGame
+import com.example.saygg.events.data.VideoGame
 
 fun TournamentsByCountryQuery.Node.toTournament(): Tournament {
     return Tournament(

@@ -1,5 +1,6 @@
 package com.example.saygg.tournament.data.model
 
+import com.example.saygg.events.data.Event
 import com.example.saygg.profile.data.Player
 
 data class Tournament(

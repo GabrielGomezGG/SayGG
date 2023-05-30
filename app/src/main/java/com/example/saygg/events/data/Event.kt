@@ -1,4 +1,4 @@
-package com.example.saygg.tournament.data.model
+package com.example.saygg.events.data
 
 data class Event(
     val name: String,
