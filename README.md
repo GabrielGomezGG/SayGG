@@ -1,5 +1,5 @@
 # SayGG
-![](T:\Android\SayGG\screenshot\startgg.gif "SayGG APP")
+![](https://github.com/GabrielGomezGG/SayGG/blob/master/screenshot/startgg.gif)
 
 ## Description:
 This is a project that I made to learn about Jetpack Compose and GraphQL. It is a simple app that shows a list of tournament and their details. The data is obtained from the [Start.gg api](https://developer.start.gg/docs/intro/). The app is made with MVVM architecture and uses the repository pattern. It also uses Dagger Hilt for dependency injection and Apollo GraphQL for the network layer.
@@ -24,7 +24,7 @@ This is a project that I made to learn about Jetpack Compose and GraphQL. It is 
 
 | Home                                 | Home Navigation Drawer                                  | Tournament Details                                            |
 |--------------------------------------|---------------------------------------------------------|---------------------------------------------------------------|
-| ![Home](T:\Android\SayGG\screenshot\home.png) | ![Nav Drawer](T:\Android\SayGG\screenshot\nav_drawer.png) | ![Details](T:\Android\SayGG\screenshot\tournament_details.png) |
+| ![Home](https://github.com/GabrielGomezGG/SayGG/blob/master/screenshot/home.png) | ![Nav Drawer](https://github.com/GabrielGomezGG/SayGG/blob/master/screenshot/nav_drawer.png) | ![Details](https://github.com/GabrielGomezGG/SayGG/blob/master/screenshot/tournament_details.png) |
 | Tournament Events                    | Tournament Attenders                                    |
-| ![](T:\Android\SayGG\screenshot\tournament_events.png)                                     | ![](T:\Android\SayGG\screenshot\tournament_attenders.png)                                                        |
+| ![](https://github.com/GabrielGomezGG/SayGG/blob/master/screenshot/tournament_events.png)                                     | ![](https://github.com/GabrielGomezGG/SayGG/blob/master/screenshot/tournament_attenders.png)                                                        |
 
