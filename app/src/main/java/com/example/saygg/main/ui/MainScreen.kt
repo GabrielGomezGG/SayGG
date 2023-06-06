@@ -40,6 +40,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.saygg.R
 import com.example.saygg.tournament.data.model.Image
@@ -53,6 +54,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     tournamentList: TournamentUiState?,
+    country: String,
     navTournamentView : (String,String,List<Image>) -> Unit
 ) {
 
@@ -67,7 +69,7 @@ fun MainScreen(
                 ModalDrawerSheet(
                     Modifier.width(80.dp),
                 ) {
-                    MainNavigationDrawerItems()
+                    MainNavigationDrawerItems(country)
                 }
             }
         },
@@ -154,7 +156,7 @@ private fun MainContent(
 
 
 @Composable
-fun MainNavigationDrawerItems() {
+fun MainNavigationDrawerItems(country : String) {
 
     //Start GG icon
     MainNavigationDrawerItem(
@@ -182,6 +184,8 @@ fun MainNavigationDrawerItems() {
 
     //language ICON
     MainNavigationDrawerItem(painterResource(id = R.drawable.baseline_translate_24))
+
+    MainNavigationDrawerItem(country)
 
     Divider(thickness = 2.dp, modifier = Modifier.padding(vertical = 8.dp))
 
@@ -223,6 +227,12 @@ fun <T> MainNavigationDrawerItem(
                         painter = icon,
                         contentDescription = null,
                         modifier = Modifier.size(48.dp)
+                    )
+                }
+                is String -> {
+                    Text(
+                        fontSize = 32.sp,
+                        text = icon,
                     )
                 }
             }

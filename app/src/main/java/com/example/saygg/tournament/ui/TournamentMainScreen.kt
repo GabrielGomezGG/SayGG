@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,6 +33,7 @@ fun TournamentMainScreen(
     tournament: TournamentUiState?,
     titleTop: String,
     imageTop: String,
+    country : String,
     onClickBackHandler: () -> Unit
 ) {
 
@@ -47,7 +45,7 @@ fun TournamentMainScreen(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(Modifier.width(80.dp)) {
-                MainNavigationDrawerItems()
+                MainNavigationDrawerItems(country)
             }
         }
     ) {
@@ -78,7 +76,7 @@ fun TournamentMainScreen(
 
 @Composable
 fun TournamentBottomBar() {
-    BottomAppBar() {
+    BottomAppBar {
         NavigationBarItem(
             selected = true,
             onClick = { /*TODO*/ },

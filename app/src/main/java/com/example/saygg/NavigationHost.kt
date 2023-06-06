@@ -22,6 +22,7 @@ fun NavigationHost(
 
     val tournament by tournamentViewModel.tournament.observeAsState()
     val tournamentList by tournamentViewModel.tournamentList.observeAsState()
+    val country by tournamentViewModel.country.observeAsState("\uD83C\uDDE6\uD83C\uDDF7")
 
     val titleTop by mainViewModel.title.observeAsState("")
     val imageTop by mainViewModel.imageTitle.observeAsState("")
@@ -35,6 +36,7 @@ fun NavigationHost(
         composable(DTournaments.route) {
             MainScreen(
                 tournamentList = tournamentList,
+                country,
                 navTournamentView = { id, name, images ->
                     var image = ""
                     images.map { if (it.type == "profile") image = it.url }
@@ -49,7 +51,8 @@ fun NavigationHost(
             TournamentMainScreen(
                 tournament = tournament,
                 titleTop = titleTop,
-                imageTop = imageTop
+                imageTop = imageTop,
+                country = country
             ) {
                 navController.navigate(DTournaments.route)
             }
